@@ -1,10 +1,12 @@
 <?php
+namespace App;
 $this->headLink()
     ->prependStylesheet('https://use.fontawesome.com/releases/v5.13.0/css/all.css')
     ->prependStylesheet('https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css');
 $this->inlineScript()
     ->prependFile('https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js')
-    ->prependFile('https://code.jquery.com/jquery-3.5.1.min.js');
+    ->prependFile('https://code.jquery.com/jquery-3.5.1.min.js')
+    ->prependFile('/js/main.js');
 ?>
 <!DOCTYPE html>
 <html>
@@ -41,7 +43,7 @@ $this->inlineScript()
                 <!-- Links -->
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a href="https://docs.mezzio.dev/mezzio" target="_blank" class="nav-link">
                                 <i class="fa fa-book"></i> Docs
                             </a>
@@ -54,6 +56,21 @@ $this->inlineScript()
                         <li class="nav-item">
                             <a href="<?=$this->url('api.ping')?>" class="nav-link">
                                 Ping Test
+                            </a>
+                        </li> -->
+                        <li class="nav-item">
+                            <a href="<?=$this->url('valuation.home')?>" class="nav-link">
+                                Home
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?=$this->url('valuation.assets')?>" class="nav-link">
+                                Assets
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?=$this->url('valuation.asset',['id'=>199])?>" class="nav-link">
+                                Valuation asset (ID: 199)
                             </a>
                         </li>
                     </ul>
