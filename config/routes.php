@@ -38,7 +38,16 @@ use Psr\Container\ContainerInterface;
  */
 
 return static function (Application $app, MiddlewareFactory $factory, ContainerInterface $container): void {
+    
+    /** homepage */
     $app->get('/', App\Handler\HomePageHandler::class, 'home');
-    $app->get('/user/register', User\Handler\RegisterHandler::class, 'Register');
+    $app->get('/register', User\Handler\RegisterHandler::class, 'register');
+    
+    /** MODULE Valuation */
+    $app->get('/valuation', Valuation\Handler\ValuationHandler::class, 'valuation.home');
+    $app->get('/valuation/assets', Valuation\Handler\AssetsHandler::class, 'valuation.assets');
+    $app->get('/valuation/asset[/:id]', Valuation\Handler\AssetHandler::class, 'valuation.asset');
+    
+    /** API */
     $app->get('/api/ping', App\Handler\PingHandler::class, 'api.ping');
 };
