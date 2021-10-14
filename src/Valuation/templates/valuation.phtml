@@ -1,0 +1,56 @@
+Template for Valuation\Handler\ValuationHandler
+namespace App;
+
+<div class="table-responsive">
+
+    
+
+    <h1>Exist valuation aktiva</h1>
+
+    <!-- <h2><?= print_r($echo); ?></h2> -->
+
+    <table class="table table-striped table-sm">
+
+        <thead>
+
+            <tr>
+                <th>#</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Gender</th>
+                <th>Role</th>
+                <th>Action</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <?php if(isset($this->echo)) { foreach ($this->echo as $valuation) { ?>
+            <tr>
+                <td>
+                <?=$valuation['id']?>
+                </td>
+                <td>
+                    <?=$valuation['aktiva_id']?>
+                </td>
+                <td>
+                    <?=$valuation['level1']?>
+                </td>
+                <td>
+                   
+                </td>
+                <td>
+                    
+                </td>
+                <td>
+                   
+                </td>
+            </tr>
+
+            <?php } }?>
+        </tbody>
+
+    </table>
+</div>
+

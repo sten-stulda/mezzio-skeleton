@@ -1,0 +1,299 @@
+<form>
+    <h3><?=$this->id?></h3>
+    <p>Informace z database o aktivě</p>
+    <hr>
+    <p><small>2.4.1 ...</small> HA - Hodnota aktiva ... HA = 3^(Du-1)+3^(In-1)+3^(Do-1)</p>
+    <hr>
+    <h3><small>2.4.2 ...</small> Du - Hodnocení důvěrnosti aktiva (radio with table)</h3>
+
+    <table class="table" width="100%">
+        <tbody>
+            <tr>
+                <td class="text-center du_level_1" style="background-color: green;" value="1"
+                    onclick="javascript:clickedConfidentiality(this)">
+                    <h3>Nízká</h3>
+                </td>
+                <td class="text-center du_level_2" style="background-color: yellow;" value="2"
+                    onclick="javascript:clickedConfidentiality(this)">
+                    <h3>Střední</h3>
+                </td>
+                <td class="text-center du_level_3" style="background-color: orange;" value="3"
+                    onclick="javascript:clickedConfidentiality(this)">
+                    <h3>Vysoká</h3>
+                </td>
+                <td class="text-center du_level_4" style="background-color: red;" value="4"
+                    onclick="javascript:clickedConfidentiality(this)">
+                    <h3>Kritická</h3>
+                </td>
+            </tr>
+            <tr>
+                <td value="1" onclick="javascript:clickedConfidentiality(this)">
+                    <p>text</p>
+                </td>
+                <td value="2" onclick="javascript:clickedConfidentiality(this)">
+                    <p>text</p>
+                </td>
+                <td value="3" onclick="javascript:clickedConfidentiality(this)">
+                    <p>text</p>
+                </td>
+                <td value="4" onclick="javascript:clickedConfidentiality(this)">
+                    <p>text</p>
+                </td>
+            </tr>
+            <!-- <tr>
+             <td class="text-center" value="1" onclick="javascript:clickedConfidentiality(this)">
+                 <div class="radio">
+                    <input type="radio" id='express' name="optradio">
+                </div>
+             </td>
+             <td class="text-center" value="2" onclick="javascript:clickedConfidentiality(this)">
+                <div class="radio">
+                     <label><input type="radio" id='express' name="optradio"></label>
+                </div>
+             </td>
+             <td class="text-center" value="1" onclick="javascript:clickedConfidentiality(this)">
+                <div class="radio">
+                     <label><input type="radio" id='express' name="optradio"></label>
+                </div>
+             </td>
+             <td class="text-center" value="1" onclick="javascript:clickedConfidentiality(this)">
+                <div class="radio">
+                     <label><input type="radio" id='express' name="optradio"></label>
+                </div>
+             </td>
+         </tr> -->
+        </tbody>
+    </table>
+
+
+    <h3><small>2.4.3 ...</small> In - Hodnocení integrity aktiva (radio with table)</h3>
+    <table class="table" width="100%">
+        <tbody>
+            <tr>
+                <td class="text-center du_level_1" style="background-color: green;" value="1"
+                    onclick="javascript:clickedIntegrity(this)">
+                    <h3>Nízká</h3>
+                </td>
+                <td class="text-center du_level_2" style="background-color: yellow;" value="2"
+                    onclick="javascript:clickedIntegrity(this)">
+                    <h3>Střední</h3>
+                </td>
+                <td class="text-center du_level_3" style="background-color: orange;" value="3"
+                    onclick="javascript:clickedIntegrity(this)">
+                    <h3>Vysoká</h3>
+                </td>
+                <td class="text-center du_level_4" style="background-color: red;" value="4"
+                    onclick="javascript:clickedIntegrity(this)">
+                    <h3>Kritická</h3>
+                </td>
+            </tr>
+            <tr>
+                <td value="1" onclick="javascript:clickedIntegrity(this)">
+                    <p>text</p>
+                </td>
+                <td value="2" onclick="javascript:clickedIntegrity(this)">
+                    <p>text</p>
+                </td>
+                <td value="3" onclick="javascript:clickedIntegrity(this)">
+                    <p>text</p>
+                </td>
+                <td value="4" onclick="javascript:clickedIntegrity(this)">
+                    <p>text</p>
+                </td>
+            </tr>
+            <!-- <tr>
+             <td class="text-center">
+                 <div class="radio">
+                    <input type="radio" id='express' name="optradio">
+                </div>
+             </td>
+             <td class="text-center">
+                <div class="radio">
+                     <label><input type="radio" id='express' name="optradio"></label>
+                </div>
+             </td>
+             <td class="text-center">
+                <div class="radio">
+                     <label><input type="radio" id='express' name="optradio"></label>
+                </div>
+             </td>
+             <td class="text-center">
+                <div class="radio">
+                     <label><input type="radio" id='express' name="optradio"></label>
+                </div>
+             </td>
+         </tr> -->
+        </tbody>
+    </table>
+    <h3><small>2.4.4 ...</small> Do - Hodnocení dostupnosti aktiva (radio with table)</h3>
+    <table class="table" width="100%">
+        <tbody>
+            <tr>
+                <td class="text-center du_level_1" style="background-color: green;">
+                    <h3>Nízká</h3>
+                </td>
+                <td class="text-center du_level_2" style="background-color: yellow;">
+                    <h3>Střední</h3>
+                </td>
+                <td class="text-center du_level_3" style="background-color: orange;">
+                    <h3>Vysoká</h3>
+                </td>
+                <td class="text-center du_level_4" style="background-color: red;">
+                    <h3>Kritická</h3>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>text</p>
+                </td>
+                <td>
+                    <p>text</p>
+                </td>
+                <td>
+                    <p>text</p>
+                </td>
+                <td>
+                    <p>text</p>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">
+                    <div class="radio">
+                        <input type="radio" id='express' name="optradio">
+                    </div>
+                </td>
+                <td class="text-center">
+                    <div class="radio">
+                        <label><input type="radio" id='express' name="optradio"></label>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <div class="radio">
+                        <label><input type="radio" id='express' name="optradio"></label>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <div class="radio">
+                        <label><input type="radio" id='express' name="optradio"></label>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <hr>
+    <h3>Kr - Hodnocení dopadů (radio with table) "pomůcka"</h3>
+    <hr>
+    <h3><small>2.7 ...</small> Z - Hodnocení zranitelnosti (radio with table)</h3>
+    <table class="table" width="100%">
+        <tbody>
+            <tr>
+                <td class="text-center du_level_1" style="background-color: green;">
+                    <h3>Nízká</h3>
+                </td>
+                <td class="text-center du_level_2" style="background-color: yellow;">
+                    <h3>Střední</h3>
+                </td>
+                <td class="text-center du_level_3" style="background-color: orange;">
+                    <h3>Vysoká</h3>
+                </td>
+                <td class="text-center du_level_4" style="background-color: red;">
+                    <h3>Kritická</h3>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>text</p>
+                </td>
+                <td>
+                    <p>text</p>
+                </td>
+                <td>
+                    <p>text</p>
+                </td>
+                <td>
+                    <p>text</p>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">
+                    <div class="radio">
+                        <input type="radio" id='express' name="optradio">
+                    </div>
+                </td>
+                <td class="text-center">
+                    <div class="radio">
+                        <label><input type="radio" id='express' name="optradio"></label>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <div class="radio">
+                        <label><input type="radio" id='express' name="optradio"></label>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <div class="radio">
+                        <label><input type="radio" id='express' name="optradio"></label>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <h3><small>2.8 ...</small> P - Hodnocení hrozeb (radio with table)</h3>
+    <table class="table" width="100%">
+        <tbody>
+            <tr>
+                <td class="text-center du_level_1" style="background-color: green;">
+                    <h3>Nízká</h3>
+                </td>
+                <td class="text-center du_level_2" style="background-color: yellow;">
+                    <h3>Střední</h3>
+                </td>
+                <td class="text-center du_level_3" style="background-color: orange;">
+                    <h3>Vysoká</h3>
+                </td>
+                <td class="text-center du_level_4" style="background-color: red;">
+                    <h3>Kritická</h3>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p>text</p>
+                </td>
+                <td>
+                    <p>text</p>
+                </td>
+                <td>
+                    <p>text</p>
+                </td>
+                <td>
+                    <p>text</p>
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">
+                    <div class="radio">
+                        <input type="radio" id='express' name="optradio">
+                    </div>
+                </td>
+                <td class="text-center">
+                    <div class="radio">
+                        <label><input type="radio" id='express' name="optradio"></label>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <div class="radio">
+                        <label><input type="radio" id='express' name="optradio"></label>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <div class="radio">
+                        <label><input type="radio" id='express' name="optradio"></label>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <hr>
+    <h3><small>2.10 ...</small> Stanovení míry rizika ( Míra rizika = Ha x PZD )</h3>
+    <hr>
+</form>
