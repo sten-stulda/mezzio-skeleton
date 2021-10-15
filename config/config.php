@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use DebugBar\DebugBar;
 use Laminas\ConfigAggregator\ArrayProvider;
 use Laminas\ConfigAggregator\ConfigAggregator;
 use Laminas\ConfigAggregator\PhpFileProvider;
@@ -61,6 +62,8 @@ $aggregator = new ConfigAggregator([
     new PhpFileProvider(realpath(__DIR__) . '/autoload/{{,*.}global,{,*.}local}.php'),
     // Load development config if it exists
     new PhpFileProvider(realpath(__DIR__) . '/development.config.php'),
+
+    PhpMiddleware\PhpDebugBar\ConfigProvider::class,
 ], $cacheConfig['config_cache_path']);
 
 return $aggregator->getMergedConfig();
