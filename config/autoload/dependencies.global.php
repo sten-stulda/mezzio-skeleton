@@ -31,9 +31,9 @@ return [
     ],
     'db' => [
         'driver' => 'Pdo',
-        'dsn' => 'mysql:dbname=mezzio;hostname=localhost',
+        'dsn' => 'mysql:dbname=mezzio;host=database;port=3306',
         'driver_options' => [
-            PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'' 
+            PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''
         ]
     ]
 ];
