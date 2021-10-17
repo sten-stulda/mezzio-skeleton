@@ -1,9 +1,6 @@
-Template for Valuation\Handler\ValuationHandler
-namespace App;
-
 <div class="table-responsive">
 
-    
+
 
     <h1>Exist valuation aktiva</h1>
 
@@ -15,42 +12,87 @@ namespace App;
 
             <tr>
                 <th>#</th>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Gender</th>
-                <th>Role</th>
-                <th>Action</th>
+                <th>Aktiva ID</th>
+                <th>Důvěrnost</th>
+                <th>Integrita</th>
+                <th>Dostupnost</th>
+                <th>Dopad</th>
+                <th>Zranitelnost</th>
+                <th>Hrozby</th>
+                <th>Výsledek</th>
+                <th>Akce</th>
             </tr>
 
         </thead>
 
         <tbody>
 
-            <?php if(isset($this->echo)) { foreach ($this->echo as $valuation) { ?>
-            <tr>
-                <td>
-                <?=$valuation['id']?>
-                </td>
-                <td>
-                    <?=$valuation['aktiva_id']?>
-                </td>
-                <td>
-                    <?=$valuation['level1']?>
-                </td>
-                <td>
-                   
-                </td>
-                <td>
-                    
-                </td>
-                <td>
-                   
-                </td>
-            </tr>
-
-            <?php } }?>
+            <? if (isset($this->echo)) : ?>
+                <? foreach ($this->echo as $valuation) : ?>
+                    <tr>
+                        <td>
+                            <?= $valuation['id'] ?>
+                        </td>
+                        <td>
+                            <?= $valuation['aktiva_id'] ?>
+                        </td>
+                        <td>
+                            <? if (empty($valuation['confidentiality_value'])) : ?>
+                                <a href="<?= $this->url('valuation.confidentiality', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm btn-primary">Hodnotit</a>
+                            <? else : ?>
+                                <?= $valuation['confidentiality_value'] ?> <a href="<?= $this->url('valuation.confidentiality', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm">Změna</a>
+                            <? endif; ?>
+                        </td>
+                        <td>
+                            <? if (empty($valuation['integrity_value'])) : ?>
+                                <a href="<?= $this->url('valuation.integrity', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm btn-primary">Hodnotit</a>
+                            <? else : ?>
+                                <?= $valuation['integrity_value'] ?> <a href="<?= $this->url('valuation.integrity', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm">Změna</a>
+                            <? endif; ?>
+                        </td>
+                        <td>
+                            <? if (empty($valuation['availability_value'])) : ?>
+                                <a href="<?= $this->url('valuation.availability', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm btn-primary">Hodnotit</a>
+                            <? else : ?>
+                                <?= $valuation['availability_value'] ?> <a href="<?= $this->url('valuation.availability', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm">Změna</a>
+                            <? endif; ?>
+                        </td>
+                        <td>
+                            <? if (empty($valuation['impact_value'])) : ?>
+                                <a href="<?= $this->url('valuation.impact', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm btn-primary">Hodnotit</a>
+                            <? else : ?>
+                                <?= $valuation['impact_value'] ?> <a href="<?= $this->url('valuation.impact', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm">Změna</a>
+                            <? endif; ?>
+                        </td>
+                        <td>
+                            <? if (empty($valuation['vulnerability_value'])) : ?>
+                                <a href="<?= $this->url('valuation.availability', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm btn-primary">Hodnotit</a>
+                            <? else : ?>
+                                <?= $valuation['vulnerability_value'] ?> <a href="<?= $this->url('valuation.vulnerability', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm">Změna</a>
+                            <? endif; ?>
+                        </td>
+                        <td>
+                            <? if (empty($valuation['threat_value'])) : ?>
+                                <a href="<?= $this->url('valuation.threat', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm btn-primary">Hodnotit</a>
+                            <? else : ?>
+                                <?= $valuation['threat_value'] ?> <a href="<?= $this->url('valuation.threat', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm">Změna</a>
+                            <? endif; ?>
+                        </td>
+                        <td>
+                            <? if (empty($valuation['result_of_degree_of_risk'])&&!empty($valuation['threat_value'])) : ?>
+                                <a href="<?= $this->url('valuation.threat', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm btn-primary">Spočítat</a>
+                            <? else : ?>
+                                <p style="color:red">není hodnocení</p>
+                                <!-- <?= $valuation['result_of_degree_of_risk'] ?> <a href="<?= $this->url('valuation.threat', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm">Změna</a> -->
+                            <? endif; ?>
+                        </td>
+                        <td>
+                            <a href="<?= $this->url('valuation.asset', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm btn-success">Hodnotit</a>
+                        </td>
+                    </tr>
+                <? endforeach; ?>
+            <? endif; ?>
         </tbody>
 
     </table>
 </div>
-

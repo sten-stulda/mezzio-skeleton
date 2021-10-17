@@ -13,11 +13,16 @@ declare(strict_types=1);
 return [
     'dependencies' => [
         'factories' => [
-            //User\Handler\RegisterHandler::class => User\Handler\RegisterHandlerFactory::class,
             Valuation\Handler\AssetHandler::class => Valuation\Handler\AssetHandlerFactory::class,
             Valuation\Handler\AssetsHandler::class => Valuation\Handler\AssetsHandlerFactory::class,
+            Valuation\Handler\AvailabilityHandler::class => Valuation\Handler\AvailabilityHandlerFactory::class,
+            Valuation\Handler\ConfidentialityHandler::class => Valuation\Handler\ConfidentialityHandlerFactory::class,
             Valuation\Handler\HomePageHandler::class => Valuation\Handler\HomePageHandlerFactory::class,
+            Valuation\Handler\ImpactHandler::class => Valuation\Handler\ImpactHandlerFactory::class,
+            Valuation\Handler\IntegrityHandler::class => Valuation\Handler\IntegrityHandlerFactory::class,
+            Valuation\Handler\ThreatHandler::class => Valuation\Handler\ThreatHandlerFactory::class,
             Valuation\Handler\ValuationHandler::class => Valuation\Handler\ValuationHandlerFactory::class,
+            Valuation\Handler\VulnerabilityHandler::class => Valuation\Handler\VulnerabilityHandlerFactory::class,
         ],
     ],
 ];

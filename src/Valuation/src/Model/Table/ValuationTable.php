@@ -4,15 +4,8 @@ declare(strict_types=1);
 
 namespace Valuation\Model\Table;
 
-use Laminas\Crypt\Password\Bcrypt;
 use Laminas\Db\TableGateway\AbstractTableGateway;
 use Laminas\Db\Adapter\Adapter;
-use Laminas\Filter;
-use Laminas\Hydrator\ClassMethodsHydrator;
-use Laminas\I18n;
-use Laminas\InputFilter;
-use Laminas\Validator;
-use Valuation\Model\Entity\ValuationEntity;
 
 class ValuationTable extends AbstractTableGateway
 {
@@ -30,9 +23,22 @@ class ValuationTable extends AbstractTableGateway
         $sqlStmt = $this->sql->prepareStatementForSqlObject($sqlQuery);
         $result = $sqlStmt->execute();
 
-        // $entity = new ValuationEntity();
-        // $method = new ClassMethodsHydrator();
-        // $method->hydrate($result, $entity);
+        return $result;
+    }
+
+    public function getValuationById(int $id)
+    {
+        $sqlQuery = $this->sql->select()->where(['aktiva_id' => $id]);
+        $sqlStmt  = $this->sql->prepareStatementForSqlObject($sqlQuery);
+        $result   = $sqlStmt->execute()->current();
+        return $result;
+    }
+
+    public function updateConfidentialityValuation(array $data)
+    {
+        $sqlQuery = $this->sql->update()->set(['confidentiality_value' => $data['confidentiality']])->where(['aktiva_id' => $data['aktiva_id']]);
+        $sqlStmt  = $this->sql->prepareStatementForSqlObject($sqlQuery);
+        $result   = $sqlStmt->execute();
         return $result;
     }
 

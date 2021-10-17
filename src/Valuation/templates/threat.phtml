@@ -1,0 +1,54 @@
+Template for Valuation\Handler\ThreatHandler
+
+<form>
+    <h3><small>id:</small> <?= $this->id ?></h3>
+    <hr>
+    <p>Zde budou informace aktiva</p>
+    <hr>
+    <h2>6. Hodnocení hrozeb (vybráno: <span style="background-color: <?= $colorLevel[$valuation['integrity_value']] ?>"><?=$levelName[$valuation['integrity_value']]?></span>)</h2>
+    <hr>
+    <!-- <p><small>2.4.1 ...</small> HA - Hodnota aktiva ... HA = 3^(Du-1)+3^(In-1)+3^(Do-1)</p>
+    <hr>
+    <h3><small>2.4.2 ...</small> Du - Hodnocení důvěrnosti aktiva (radio with table)</h3> -->
+
+    <table class="table" width="100%">
+        <tbody>
+            <tr>
+                <? if (isset($this->assets)) : ?>
+                    <? foreach ($this->assets as $values) : ?>
+                        <td class="text-center du_level_<?= $values['id'] ?>" style="background-color: <?= $colorLevel[$values['level']] ?>;" value="<?= $values['id'] ?>" onclick="javascript:clickedIntegrity(this)">
+                            <h3><?= $levelName[$values['level']] ?></h3>
+                        </td>
+                    <? endforeach; ?>
+                <? endif; ?>
+            </tr>
+            <tr>
+                <? if (isset($this->description)) : ?>
+                    <? foreach ($this->description as $values) : ?>
+                        <td value="<?= $values['id'] ?>" onclick="javascript:clickedIntegrity(this)">
+                            <p><?= $values['description'] ?></p>
+                        </td>
+                    <? endforeach; ?>
+                <? endif; ?>
+            </tr>
+            <tr>
+                <? if (isset($this->radio)) : ?>
+                    <? foreach ($this->radio as $values) : ?>
+                        <td class="text-center" value="<?= $values['value'] ?>" onclick="javascript:clickedIntegrity(this)">
+                            <div class="radio">
+                                <input type="radio" id='Integrity' name="radio_<?= $values['id'] ?>">
+                            </div>
+                        </td>
+                    <? endforeach; ?>
+                <? endif; ?>
+            </tr>
+        </tbody>
+    </table>
+<hr>
+<div class="row">
+    <div class="col-md-4 text-left"><a href="<?=$this->url('valuation.vulnerability',['id'=>$valuation['aktiva_id']])?>" class="btn btn-sm btn-primary">Předchozí (hodnocení zranitelnosti)</a></div>
+    <div class="col-md-4 text-center"><a href="" class="btn btn-sm btn-success">Potvrdit</a></div>
+    <div class="col-md-4 text-right"></div>
+</div>
+
+</form>

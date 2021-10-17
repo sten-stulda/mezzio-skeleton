@@ -47,7 +47,22 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
     $app->get('/valuation', Valuation\Handler\ValuationHandler::class, 'valuation.home');
     $app->get('/valuation/assets', Valuation\Handler\AssetsHandler::class, 'valuation.assets');
     $app->get('/valuation/asset[/:id]', Valuation\Handler\AssetHandler::class, 'valuation.asset');
+
+    /** valuation */
+    $app->get('/valuation/confidentiality[/:id]', Valuation\Handler\ConfidentialityHandler::class, 'valuation.confidentiality');
+    $app->get('/valuation/integrity[/:id]', Valuation\Handler\IntegrityHandler::class, 'valuation.integrity');
+    $app->get('/valuation/availability[/:id]', Valuation\Handler\AvailabilityHandler::class, 'valuation.availability');
+
+    /** valuation */
+    $app->get('/valuation/impact[/:id]', Valuation\Handler\ImpactHandler::class, 'valuation.impact');
+    $app->get('/valuation/vulnerability[/:id]', Valuation\Handler\VulnerabilityHandler::class, 'valuation.vulnerability');
+    $app->get('/valuation/threat[/:id]', Valuation\Handler\ThreatHandler::class, 'valuation.threat');
     
     /** API */
     $app->get('/api/ping', App\Handler\PingHandler::class, 'api.ping');
+
+    //$app->route('/test', Valuation\Handler\ValuationHandler::class,['GET','POST'],'test');
+
+    $app->post('/test', Valuation\Handler\ValuationHandler::class, 'test');
+    
 };

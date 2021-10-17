@@ -1,0 +1,81 @@
+<form>
+    <h3><small>id:</small> <?= $this->id ?></h3>
+    <hr>
+    <p>Zde budou informace aktiva</p>
+    <hr>
+    <h2>4. Hodnocení dopadů (vybráno: <span style="background-color: <?= $colorLevel[$valuation['impact_value']] ?>"><?= $levelName[$valuation['impact_value']] ?></span>)</h2>
+    <hr>
+    <!-- <p><small>2.4.1 ...</small> HA - Hodnota aktiva ... HA = 3^(Du-1)+3^(In-1)+3^(Do-1)</p>
+    <hr>
+    <h3><small>2.4.2 ...</small> Du - Hodnocení důvěrnosti aktiva (radio with table)</h3> -->
+
+    <table class="table" width="100%">
+        <thead>
+            <tr>
+                <th class="text-center" style="background-color: gray; color: white;">#</th>
+                <th class="text-center" style="background-color: green;" value="1" onclick="javascript:clickedImpact(this)">1</th>
+                <th class="text-center" style="background-color: yellow;" value="2" onclick="javascript:clickedImpact(this)">2</th>
+                <th class="text-center" style="background-color: orange;" value="3" onclick="javascript:clickedImpact(this)">3</th>
+                <th class="text-center" style="background-color: red;" value="4" onclick="javascript:clickedImpact(this)">4</th>
+            </tr>
+            <tr>
+                <th class="text-center" style="background-color: gray; color: white;">Úroveň</th>
+                <th class="text-center" style="background-color: green;" value="1" onclick="javascript:clickedImpact(this)">Nízká</th>
+                <th class="text-center" style="background-color: yellow;" value="2" onclick="javascript:clickedImpact(this)">Střední</th>
+                <th class="text-center" style="background-color: orange;" value="3" onclick="javascript:clickedImpact(this)">Vysoká</th>
+                <th class="text-center" style="background-color: red;" value="4" onclick="javascript:clickedImpact(this)">Kritická</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <? if (isset($this->assets)) : ?>
+                <? foreach ($this->assets as $values) : ?>
+                    <tr>
+                        <td class="text-center" style="background-color: gray;color: white;">
+                            <?= $values['description'] ?>
+                        </td>
+                        <td class="text-center" value="1" onclick="javascript:clickedImpact(this)">
+                            <?= $values['description_level_1'] ?>
+                        </td>
+                        <td class="text-center" value="2" onclick="javascript:clickedImpact(this)">
+                            <?= $values['description_level_2'] ?>
+                        </td>
+                        <td class="text-center" value="3" onclick="javascript:clickedImpact(this)">
+                            <?= $values['description_level_3'] ?>
+                        </td>
+                        <td class="text-center" value="4" onclick="javascript:clickedImpact(this)">
+                            <?= $values['description_level_4'] ?>
+                        </td>
+                    </tr>
+                <? endforeach; ?>
+            <? endif; ?>
+            <tr>
+                <td></td>
+                <td class="text-center" value="1" onclick="javascript:clickedImpact(this)">
+                    <div class="radio">
+                        <input type="radio" id='Impact' name="radio_1">
+                    </div>
+                </td>
+                <td class="text-center" value="2" onclick="javascript:clickedImpact(this)">
+                    <div class="radio">
+                        <input type="radio" id='Impact' name="radio_2">
+                    </div>
+                </td>
+                <td class="text-center" value="3" onclick="javascript:clickedImpact(this)">
+                    <div class="radio">
+                        <input type="radio" id='Impact' name="radio_3">
+                    </div>
+                </td>
+                <td class="text-center" value="4" onclick="javascript:clickedImpact(this)">
+                    <div class="radio">
+                        <input type="radio" id='Impact' name="radio_4">
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <hr>
+    <div class="row">
+        <div class="col-md-4 text-left"><a href="<?= $this->url('valuation.availability', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm btn-primary">Předchozí (hodnocení dostupnosti)</a></div>
+        <div class="col-md-4 text-center"><a href="" class="btn btn-sm btn-success">Potvrdit</a></div>
+        <div class="col-md-4 text-right"><a href="<?= $this->url('valuation.vulnerability', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm btn-primary">Další (hodnocení zranitelností)</a></div>
