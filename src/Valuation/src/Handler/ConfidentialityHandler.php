@@ -4,17 +4,18 @@ declare(strict_types=1);
 
 namespace Valuation\Handler;
 
-use Album\Form\AlbumForm;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Laminas\Diactoros\Response\HtmlResponse;
+use Laminas\Diactoros\Response\RedirectResponse;
 use Mezzio\Template\TemplateRendererInterface;
+use Psr\Http\Server\MiddlewareInterface;
 use Valuation\Form\ConfidentialityValuationForm;
 use Valuation\Model\Table\ConfidentialityTable;
 use Valuation\Model\Table\ValuationTable;
 
-class ConfidentialityHandler implements RequestHandlerInterface
+class ConfidentialityHandler implements MiddlewareInterface
 {
     /**
      * @var TemplateRendererInterface
@@ -38,8 +39,25 @@ class ConfidentialityHandler implements RequestHandlerInterface
         $this->renderer = $renderer;
     }
 
-    public function handle(ServerRequestInterface $request) : ResponseInterface
-    {
+    public function process(
+        ServerRequestInterface $request,
+        RequestHandlerInterface $handler
+    ): ResponseInterface {
+
+        # check if the request is a form post
+        if ($request->getMethod() === 'POST') {
+            $dataForm = $request->getParsedBody();
+            if (!empty($dataForm['aktiva_id']) && !empty($dataForm['setConfidentiality'])) {
+                $this->valuationTable->updateConfidentialityValuation($dataForm);
+                return new RedirectResponse('/valuation/confidentiality/' . $dataForm['aktiva_id']);
+            } else {
+
+                return new RedirectResponse('/valuation/confidentiality/' . $dataForm['aktiva_id']);
+            }
+        }
+
+
+
         /** id */
         $id = (int) $request->getAttribute('id') ? : 0;
 

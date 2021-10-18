@@ -22,6 +22,11 @@ class ConfigProvider
         return [
             'dependencies' => $this->getDependencies(),
             'templates'    => $this->getTemplates(),
+            'view_helpers' => [
+                'invokables' => [
+                    'flashMessenger' => View\Helper\FlashHelper::class
+                ]
+            ]
         ];
     }
 

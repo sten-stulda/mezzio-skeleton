@@ -1,6 +1,6 @@
 ﻿# Host: localhost:8081  (Version 5.7.35)
-# Date: 2021-10-18 00:30:20
-# Generator: MySQL-Front 6.0  (Build 2.20)
+# Date: 2021-10-18 11:30:40
+# Generator: MySQL-Front 6.0  (Build 3.0)
 
 
 #
@@ -247,6 +247,7 @@ CREATE TABLE `valuation` (
   `impact_value` int(11) DEFAULT NULL,
   `vulnerability_value` int(11) DEFAULT NULL,
   `threat_value` int(11) DEFAULT NULL,
+  `asset_value` int(11) DEFAULT NULL,
   `result_of_degree_of_risk` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
@@ -256,7 +257,7 @@ CREATE TABLE `valuation` (
 #
 
 /*!40000 ALTER TABLE `valuation` DISABLE KEYS */;
-INSERT INTO `valuation` VALUES (1,200,'1',NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,201,'4',1,2,3,1,4,3,NULL),(3,202,'3',NULL,NULL,NULL,NULL,NULL,NULL,NULL),(4,301,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `valuation` VALUES (1,200,'1',1,1,1,1,1,1,3,3),(2,201,'4',4,4,4,4,4,4,81,810),(3,202,'3',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(4,301,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `valuation` ENABLE KEYS */;
 
 #

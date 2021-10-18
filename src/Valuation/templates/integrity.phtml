@@ -1,4 +1,5 @@
-<form>
+<form action="<?=$this->url('integrity')?>" method="post">
+    <input type="hidden" id="aktiva_id" name="aktiva_id" value="<?= $this->id ?>">
     <h3><small>id:</small> <?= $this->id ?></h3>
     <hr>
     <p>Zde budou informace aktiva</p>
@@ -34,7 +35,7 @@
                     <? foreach ($this->radio as $values) : ?>
                         <td class="text-center" value="<?= $values['value'] ?>" onclick="javascript:clickedIntegrity(this)">
                             <div class="radio">
-                                <input type="radio" id='Integrity' name="radio_<?= $values['id'] ?>">
+                                <input type="radio" id="Integrity_<?= $values['id'] ?>" name="setIntegrity" value="<?= $values['id'] ?>">
                             </div>
                         </td>
                     <? endforeach; ?>
@@ -45,7 +46,9 @@
 <hr>
 <div class="row">
     <div class="col-md-4 text-left"><a href="<?=$this->url('valuation.confidentiality',['id'=>$valuation['aktiva_id']])?>" class="btn btn-sm btn-primary">Předchozí (hodnocení důvěrnosti)</a></div>
-    <div class="col-md-4 text-center"><a href="" class="btn btn-sm btn-success">Potvrdit</a></div>
+    <div class="col-md-4 text-center">
+        <input type="submit" class="btn btn-success" name="integrity" value="Potvrdit" />
+    </div>
     <div class="col-md-4 text-right"><a href="<?=$this->url('valuation.availability',['id'=>$valuation['aktiva_id']])?>" class="btn btn-sm btn-primary">Další (hodnocení dostupnosti)</a></div>
 </div>
 

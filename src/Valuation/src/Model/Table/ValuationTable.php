@@ -36,11 +36,66 @@ class ValuationTable extends AbstractTableGateway
 
     public function updateConfidentialityValuation(array $data)
     {
-        $sqlQuery = $this->sql->update()->set(['confidentiality_value' => $data['confidentiality']])->where(['aktiva_id' => $data['aktiva_id']]);
+        $sqlQuery = $this->sql->update()->set(['confidentiality_value' => $data['setConfidentiality']])->where(['aktiva_id' => $data['aktiva_id']]);
         $sqlStmt  = $this->sql->prepareStatementForSqlObject($sqlQuery);
         $result   = $sqlStmt->execute();
         return $result;
     }
 
+    public function updateIntegrityValuation(array $data)
+    {
+        $sqlQuery = $this->sql->update()->set(['integrity_value' => $data['setIntegrity']])->where(['aktiva_id' => $data['aktiva_id']]);
+        $sqlStmt  = $this->sql->prepareStatementForSqlObject($sqlQuery);
+        $result   = $sqlStmt->execute();
+        return $result;
+    }
+
+    public function updateAvailabilityValuation(array $data)
+    {
+        $sqlQuery = $this->sql->update()->set(['availability_value' => $data['setAvailability']])->where(['aktiva_id' => $data['aktiva_id']]);
+        $sqlStmt  = $this->sql->prepareStatementForSqlObject($sqlQuery);
+        $result   = $sqlStmt->execute();
+        return $result;
+    }
+
+    public function updateImpactValuation(array $data)
+    {
+        $sqlQuery = $this->sql->update()->set(['impact_value' => $data['setImpact']])->where(['aktiva_id' => $data['aktiva_id']]);
+        $sqlStmt  = $this->sql->prepareStatementForSqlObject($sqlQuery);
+        $result   = $sqlStmt->execute();
+        return $result;
+    }
+
+    public function updateVulnerabilityValuation(array $data)
+    {
+        $sqlQuery = $this->sql->update()->set(['vulnerability_value' => $data['setVulnerability']])->where(['aktiva_id' => $data['aktiva_id']]);
+        $sqlStmt  = $this->sql->prepareStatementForSqlObject($sqlQuery);
+        $result   = $sqlStmt->execute();
+        return $result;
+    }
+
+    public function updateThreatValuation(array $data)
+    {
+        $sqlQuery = $this->sql->update()->set(['threat_value' => $data['setThreat']])->where(['aktiva_id' => $data['aktiva_id']]);
+        $sqlStmt  = $this->sql->prepareStatementForSqlObject($sqlQuery);
+        $result   = $sqlStmt->execute();
+        return $result;
+    }
+
+    public function setAssetValue(array $data)
+    {
+        $sqlQuery = $this->sql->update()->set(['asset_value' => $data['asset_value']])->where(['aktiva_id' => $data['aktiva_id']]);
+        $sqlStmt  = $this->sql->prepareStatementForSqlObject($sqlQuery);
+        $result   = $sqlStmt->execute();
+        return $result;
+    }
+
+    public function setDegreeOfRisk(array $data)
+    {
+        $sqlQuery = $this->sql->update()->set(['result_of_degree_of_risk' => $data['result_of_degree_of_risk']])->where(['aktiva_id' => $data['aktiva_id']]);
+        $sqlStmt  = $this->sql->prepareStatementForSqlObject($sqlQuery);
+        $result   = $sqlStmt->execute();
+        return $result;
+    }
     
 }

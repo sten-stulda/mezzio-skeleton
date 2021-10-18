@@ -14,6 +14,8 @@ use Valuation\Model\Table\ImpactTable;
 use Valuation\Model\Table\ImpactTableFactory;
 use Valuation\Model\Table\IntegrityTable;
 use Valuation\Model\Table\IntegrityTableFactory;
+use Valuation\Model\Table\ResultingRateTable;
+use Valuation\Model\Table\ResultingRateTableFactory;
 use Valuation\Model\Table\ThreatTable;
 use Valuation\Model\Table\ThreatTableFactory;
 use Valuation\Model\Table\ValuationTable;
@@ -58,6 +60,7 @@ class ConfigProvider
                 VulnerabilityTable::class => VulnerabilityTableFactory::class,
                 ImpactTable::class => ImpactTableFactory::class,
                 ThreatTable::class => ThreatTableFactory::class,
+                ResultingRateTable::class => ResultingRateTableFactory::class,
 
                 ValuationController::class => ValuationControllerFactory::class
             ],

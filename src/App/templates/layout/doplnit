@@ -1,0 +1,12 @@
+<?php if (!empty($this->flashMessenger())) : ?>
+
+    <?php foreach ($this->flashMessenger() as $key => $value) : ?>
+        <div class="alert alert-<?= $key; ?> alert-dismissible fade show" role="alert">
+            <?= $this->escapeHtml($value); ?>
+            <button class="close" type="button" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    <?php endforeach; ?>
+
+<?php endif; ?>

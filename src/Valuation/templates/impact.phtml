@@ -1,4 +1,5 @@
-<form>
+<form action="<?=$this->url('impact')?>" method="post">
+    <input type="hidden" id="aktiva_id" name="aktiva_id" value="<?= $this->id ?>">
     <h3><small>id:</small> <?= $this->id ?></h3>
     <hr>
     <p>Zde budou informace aktiva</p>
@@ -53,22 +54,22 @@
                 <td></td>
                 <td class="text-center" value="1" onclick="javascript:clickedImpact(this)">
                     <div class="radio">
-                        <input type="radio" id='Impact' name="radio_1">
+                        <input type="radio" id='Impact_1' name="setImpact" value="1">
                     </div>
                 </td>
                 <td class="text-center" value="2" onclick="javascript:clickedImpact(this)">
                     <div class="radio">
-                        <input type="radio" id='Impact' name="radio_2">
+                        <input type="radio" id='Impact_2' name="setImpact" value="2">
                     </div>
                 </td>
                 <td class="text-center" value="3" onclick="javascript:clickedImpact(this)">
                     <div class="radio">
-                        <input type="radio" id='Impact' name="radio_3">
+                        <input type="radio" id='Impact_3' name="setImpact" value="3">
                     </div>
                 </td>
                 <td class="text-center" value="4" onclick="javascript:clickedImpact(this)">
                     <div class="radio">
-                        <input type="radio" id='Impact' name="radio_4">
+                        <input type="radio" id='Impact_4' name="setImpact" value="4">
                     </div>
                 </td>
             </tr>
@@ -77,5 +78,7 @@
     <hr>
     <div class="row">
         <div class="col-md-4 text-left"><a href="<?= $this->url('valuation.availability', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm btn-primary">Předchozí (hodnocení dostupnosti)</a></div>
-        <div class="col-md-4 text-center"><a href="" class="btn btn-sm btn-success">Potvrdit</a></div>
+        <div class="col-md-4 text-center">
+            <input type="submit" class="btn btn-success" name="integrity" value="Potvrdit" />
+        </div>
         <div class="col-md-4 text-right"><a href="<?= $this->url('valuation.vulnerability', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm btn-primary">Další (hodnocení zranitelností)</a></div>

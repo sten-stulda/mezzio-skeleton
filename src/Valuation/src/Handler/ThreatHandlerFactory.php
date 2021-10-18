@@ -6,6 +6,7 @@ namespace Valuation\Handler;
 
 use Mezzio\Template\TemplateRendererInterface;
 use Psr\Container\ContainerInterface;
+use Valuation\Model\Table\ResultingRateTable;
 use Valuation\Model\Table\ThreatTable;
 use Valuation\Model\Table\ValuationTable;
 
@@ -16,6 +17,7 @@ class ThreatHandlerFactory
         return new ThreatHandler(
             $container->get(ValuationTable::class),
             $container->get(ThreatTable::class),
+            $container->get(ResultingRateTable::class),
             $container->get(TemplateRendererInterface::class)
         );
     }

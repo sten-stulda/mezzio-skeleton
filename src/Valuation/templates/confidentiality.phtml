@@ -1,17 +1,5 @@
-<?php
-$this->url('test', ['action' => 'test', 'id' => $id]);
-?>
-
-<form action="<?=$this->url('valuation.confidentiality', ['action' => 'test', 'id' => $id])?>" method="post">
-<div class="form-group">
-    <input type="hidden" name="id" value="<?= (int) $album->id ?>" />
-    <input type="submit" class="btn btn-danger" name="del" value="Yes" />
-    <input type="submit" class="btn btn-success" name="del" value="No" />
-</div>
-</form>
-
-
-<form>
+<form action="<?=$this->url('confidentiality')?>" method="post">
+    <input type="hidden" id="aktiva_id" name="aktiva_id" value="<?= $this->id ?>">
     <h3><small>id:</small> <?= $this->id ?></h3>
     <hr>
     <p>Zde budou informace aktiva</p>
@@ -21,6 +9,10 @@ $this->url('test', ['action' => 'test', 'id' => $id]);
     <!-- <p><small>2.4.1 ...</small> HA - Hodnota aktiva ... HA = 3^(Du-1)+3^(In-1)+3^(Do-1)</p>
     <hr>
     <h3><small>2.4.2 ...</small> Du - Hodnocení důvěrnosti aktiva (radio with table)</h3> -->
+
+    <p>
+        <?= $this->status ?>
+    </p>
 
     <table class="table" width="100%">
         <tbody>
@@ -47,7 +39,7 @@ $this->url('test', ['action' => 'test', 'id' => $id]);
                     <? foreach ($this->radio as $values) : ?>
                         <td class="text-center" value="<?= $values['value'] ?>" onclick="javascript:clickedConfidentiality(this)">
                             <div class="radio">
-                                <input type="radio" id='Confidentiality' name="radio_<?= $values['id'] ?>">
+                                <input type="radio" id="Confidentiality_<?= $values['id'] ?>" name="setConfidentiality" value="<?= $values['id'] ?>">
                             </div>
                         </td>
                     <? endforeach; ?>
@@ -58,7 +50,9 @@ $this->url('test', ['action' => 'test', 'id' => $id]);
 <hr>
 <div class="row">
     <div class="col-md-4 text-left"></div>
-    <div class="col-md-4 text-center"><a href="" class="btn btn-sm btn-success">Potvrdit</a></div>
+    <div class="col-md-4 text-center">
+        <input type="submit" class="btn btn-success" name="confidentiality" value="Potvrdit" />
+    </div>
     <div class="col-md-4 text-right"><a href="<?=$this->url('valuation.integrity',['id'=>$valuation['aktiva_id']])?>" class="btn btn-sm btn-primary">Další (hodnocení integrity)</a></div>
 </div>
 

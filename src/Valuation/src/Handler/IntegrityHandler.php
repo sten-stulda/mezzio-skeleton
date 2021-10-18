@@ -8,11 +8,13 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Laminas\Diactoros\Response\HtmlResponse;
+use Laminas\Diactoros\Response\RedirectResponse;
 use Mezzio\Template\TemplateRendererInterface;
+use Psr\Http\Server\MiddlewareInterface;
 use Valuation\Model\Table\IntegrityTable;
 use Valuation\Model\Table\ValuationTable;
 
-class IntegrityHandler implements RequestHandlerInterface
+class IntegrityHandler implements MiddlewareInterface
 {
     /**
      * @var TemplateRendererInterface
@@ -35,8 +37,23 @@ class IntegrityHandler implements RequestHandlerInterface
         $this->renderer = $renderer;
     }
 
-    public function handle(ServerRequestInterface $request) : ResponseInterface
-    {
+    public function process(
+        ServerRequestInterface $request,
+        RequestHandlerInterface $handler
+    ): ResponseInterface {
+
+        # check if the request is a form post
+        if ($request->getMethod() === 'POST') {
+            $dataForm = $request->getParsedBody();
+            if (!empty($dataForm['aktiva_id']) && !empty($dataForm['setIntegrity'])) {
+                $this->valuationTable->updateIntegrityValuation($dataForm);
+                return new RedirectResponse('/valuation/integrity/' . $dataForm['aktiva_id']);
+            } else {
+
+                return new RedirectResponse('/valuation/integrity/' . $dataForm['aktiva_id']);
+            }
+        }
+
         /** id */
         $id = (int) $request->getAttribute('id') ? : 0;
 

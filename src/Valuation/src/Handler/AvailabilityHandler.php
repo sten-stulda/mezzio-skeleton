@@ -8,11 +8,13 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Laminas\Diactoros\Response\HtmlResponse;
+use Laminas\Diactoros\Response\RedirectResponse;
 use Mezzio\Template\TemplateRendererInterface;
+use Psr\Http\Server\MiddlewareInterface;
 use Valuation\Model\Table\AvailabilityTable;
 use Valuation\Model\Table\ValuationTable;
 
-class AvailabilityHandler implements RequestHandlerInterface
+class AvailabilityHandler implements MiddlewareInterface
 {
     /**
      * @var TemplateRendererInterface
@@ -35,8 +37,23 @@ class AvailabilityHandler implements RequestHandlerInterface
         $this->renderer = $renderer;
     }
 
-    public function handle(ServerRequestInterface $request) : ResponseInterface
-    {
+    public function process(
+        ServerRequestInterface $request,
+        RequestHandlerInterface $handler
+    ): ResponseInterface {
+
+        # check if the request is a form post
+        if ($request->getMethod() === 'POST') {
+            $dataForm = $request->getParsedBody();
+            if (!empty($dataForm['aktiva_id']) && !empty($dataForm['setAvailability'])) {
+                $this->valuationTable->updateAvailabilityValuation($dataForm);
+                return new RedirectResponse('/valuation/availability/' . $dataForm['aktiva_id']);
+            } else {
+
+                return new RedirectResponse('/valuation/availability/' . $dataForm['aktiva_id']);
+            }
+        }
+
         /** id */
         $id = (int) $request->getAttribute('id') ? : 0;
 

@@ -45,6 +45,8 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
     
     /** MODULE Valuation */
     $app->get('/valuation', Valuation\Handler\ValuationHandler::class, 'valuation.home');
+    
+    
     $app->get('/valuation/assets', Valuation\Handler\AssetsHandler::class, 'valuation.assets');
     $app->get('/valuation/asset[/:id]', Valuation\Handler\AssetHandler::class, 'valuation.asset');
 
@@ -63,6 +65,13 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
 
     //$app->route('/test', Valuation\Handler\ValuationHandler::class,['GET','POST'],'test');
 
-    $app->post('/test', Valuation\Handler\ValuationHandler::class, 'test');
+    /** POSTs */
+    $app->post('/valuation', Valuation\Handler\ValuationHandler::class, 'valuation');
+    $app->post('/confidentiality', Valuation\Handler\ConfidentialityHandler::class, 'confidentiality');
+    $app->post('/integrity', Valuation\Handler\IntegrityHandler::class, 'integrity');
+    $app->post('/availability', Valuation\Handler\AvailabilityHandler::class, 'availability');
+    $app->post('/impact', Valuation\Handler\ImpactHandler::class, 'impact');
+    $app->post('/vulnerability', Valuation\Handler\VulnerabilityHandler::class, 'vulnerability');
+    $app->post('/threat', Valuation\Handler\ThreatHandler::class, 'threat');
     
 };
