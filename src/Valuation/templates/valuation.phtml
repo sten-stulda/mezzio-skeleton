@@ -1,11 +1,16 @@
 <div class="table-responsive">
 
-
+    <style>
+        .dropdown-menu {
+            padding: 0 0 !important;
+            margin: 0 0 0 !important;
+        }
+    </style>
 
     <h1>Exist valuation aktiva
         <? print_r($this->testPOST) ?>
     </h1>
-    
+
     <? print_r($this->status) ?>
 
     <!-- <h2><?= print_r($echo); ?></h2> -->
@@ -33,83 +38,179 @@
         <tbody>
 
             <? if (isset($this->echo)) : ?>
-            <? foreach ($this->echo as $valuation) : ?>
-            <tr>
-                <td>
-                    <?= $valuation['id'] ?>
-                </td>
-                <td>
-                    <?= $valuation['aktiva_id'] ?>
-                </td>
-                <td>
-                    <? if (empty($valuation['confidentiality_value'])) : ?>
-                    <a href="<?= $this->url('valuation.confidentiality', ['id' => $valuation['aktiva_id']]) ?>"
-                        class="btn btn-sm btn-primary">Hodnotit</a>
-                    <? else : ?>
-                    <?= $valuation['confidentiality_value'] ?> <a
-                        href="<?= $this->url('valuation.confidentiality', ['id' => $valuation['aktiva_id']]) ?>"
-                        class="btn btn-sm">Změna</a>
-                    <? endif; ?>
-                    </td>
-                    <td>
-                        <? if (empty($valuation['integrity_value'])) : ?>
-                    <a href="<?= $this->url('valuation.integrity', ['id' => $valuation['aktiva_id']]) ?>"
-                        class="btn btn-sm btn-primary">Hodnotit</a>
-                    <? else : ?>
-                    <?= $valuation['integrity_value'] ?> <a
-                        href="<?= $this->url('valuation.integrity', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm">Změna</a>
-                    <? endif; ?>
-                    </td>
-                    <td>
-                        <? if (empty($valuation['availability_value'])) : ?>
-                    <a href="<?= $this->url('valuation.availability', ['id' => $valuation['aktiva_id']]) ?>"
-                        class="btn btn-sm btn-primary">Hodnotit</a>
-                    <? else : ?>
-                    <?= $valuation['availability_value'] ?> <a
-                        href="<?= $this->url('valuation.availability', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm">Změna</a>
-                    <? endif; ?>
-                    </td>
-                <td class="text-center">
-                    <?=$valuation['asset_value']?>
-                </td>
-                <td>
-                    <? if (empty($valuation['impact_value'])) : ?>
-                    <a href="<?= $this->url('valuation.impact', ['id' => $valuation['aktiva_id']]) ?>"
-                        class="btn btn-sm btn-primary">Hodnotit</a>
-                    <? else : ?>
-                    <?= $valuation['impact_value'] ?> <a href="<?= $this->url('valuation.impact', ['id' => $valuation['aktiva_id']]) ?>"
-                        class="btn btn-sm">Změna</a>
-                    <? endif; ?>
-                    </td>
-                    <td>
-                        <? if (empty($valuation['vulnerability_value'])) : ?>
-                    <a href="<?= $this->url('valuation.availability', ['id' => $valuation['aktiva_id']]) ?>"
-                        class="btn btn-sm btn-primary">Hodnotit</a>
-                    <? else : ?>
-                    <?= $valuation['vulnerability_value'] ?> <a
-                        href="<?= $this->url('valuation.vulnerability', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm">Změna</a>
-                    <? endif; ?>
-                    </td>
-                    <td>
-                        <? if (empty($valuation['threat_value'])) : ?>
-                    <a href="<?= $this->url('valuation.threat', ['id' => $valuation['aktiva_id']]) ?>"
-                        class="btn btn-sm btn-primary">Hodnotit</a>
-                    <? else : ?>
-                    <?= $valuation['threat_value'] ?> <a href="<?= $this->url('valuation.threat', ['id' => $valuation['aktiva_id']]) ?>"
-                        class="btn btn-sm">Změna</a>
-                    <? endif; ?>
-                    </td>
-                    <td>
-                    <?= $valuation['result_of_degree_of_risk'] ?>
-                    </td>
-                    <td>
-                    <a href="<?= $this->url('valuation.asset', ['id' => $valuation['aktiva_id']]) ?>"
-                        class="btn btn-sm btn-success">Hodnotit</a>
-                    </td>
+                <? foreach ($this->echo as $valuation) : ?>
+                    <tr>
+                        <td>
+                            <?= $valuation['id'] ?>
+                        </td>
+                        <td>
+                            <?= $valuation['aktiva_id'] ?>
+                        </td>
+                        <td>
+
+                            <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                                <div class="btn-group" role="group">
+                                    <button id="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" type="button" class="btn btn-secondary dropdown-toggle" style="background-color: <?= $colorLevel[$valuation['confidentiality_value']] ?>;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <? if (empty($valuation['confidentiality_value'])) : ?>
+                                            <!-- <a href="<?= $this->url('valuation.confidentiality', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm btn-primary"> -->
+                                            Hodnotit
+                                            <!-- </a> -->
+                                        <? else : ?>
+                                            <?= $levelName[$valuation['confidentiality_value']] ?>
+                                            <!-- <a href="<?= $this->url('valuation.confidentiality', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm">Změna</a> -->
+                                        <? endif; ?>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop_<?= $valuation['aktiva_id'] ?>">
+                                        <a class="dropdown-item" style="background-color: green;" aria-labelledby="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" href="#" >Nízké</a>
+                                        <a class="dropdown-item" style="background-color: yellow;" aria-labelledby="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" href="#">Střední</a>
+                                        <a class="dropdown-item" style="background-color: orange;" aria-labelledby="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" href="#">Vysoká</a>
+                                        <a class="dropdown-item" style="background-color: red;" aria-labelledby="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" href="#">Kritická</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- <? if (empty($valuation['confidentiality_value'])) : ?>
+                                <a href="<?= $this->url('valuation.confidentiality', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm btn-primary">Hodnotit</a>
+                            <? else : ?>
+                                <?= $valuation['confidentiality_value'] ?>
+                                <a href="<?= $this->url('valuation.confidentiality', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm">Změna</a>
+                            <? endif; ?> -->
+                        </td>
+                        <td>
+                            <? if (empty($valuation['integrity_value'])) : ?>
+                                <a href="<?= $this->url('valuation.integrity', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm btn-primary">Hodnotit</a>
+                            <? else : ?>
+                                <?= $valuation['integrity_value'] ?> <a href="<?= $this->url('valuation.integrity', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm">Změna</a>
+                            <? endif; ?>
+                        </td>
+                        <td>
+                            <? if (empty($valuation['availability_value'])) : ?>
+                                <a href="<?= $this->url('valuation.availability', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm btn-primary">Hodnotit</a>
+                            <? else : ?>
+                                <?= $valuation['availability_value'] ?> <a href="<?= $this->url('valuation.availability', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm">Změna</a>
+                            <? endif; ?>
+                        </td>
+                        <td class="text-center">
+                            <?= $valuation['asset_value'] ?>
+                        </td>
+                        <td>
+                            <? if (empty($valuation['impact_value'])) : ?>
+                                <a href="<?= $this->url('valuation.impact', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm btn-primary">Hodnotit</a>
+                            <? else : ?>
+                                <?= $valuation['impact_value'] ?> <a href="<?= $this->url('valuation.impact', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm">Změna</a>
+                            <? endif; ?>
+                        </td>
+                        <td>
+                            <? if (empty($valuation['vulnerability_value'])) : ?>
+                                <a href="<?= $this->url('valuation.availability', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm btn-primary">Hodnotit</a>
+                            <? else : ?>
+                                <?= $valuation['vulnerability_value'] ?> <a href="<?= $this->url('valuation.vulnerability', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm">Změna</a>
+                            <? endif; ?>
+                        </td>
+                        <td>
+                            <? if (empty($valuation['threat_value'])) : ?>
+                                <a href="<?= $this->url('valuation.threat', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm btn-primary">Hodnotit</a>
+                            <? else : ?>
+                                <?= $valuation['threat_value'] ?> <a href="<?= $this->url('valuation.threat', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm">Změna</a>
+                            <? endif; ?>
+                        </td>
+                        <td>
+                            <?= $valuation['result_of_degree_of_risk'] ?>
+                        </td>
+                        <td>
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalConfidentiality">
+                                Hodnotit
+                            </button>
+                            <a href="<?= $this->url('valuation.asset', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm btn-success">Hodnotit</a>
+                        </td>
                     </tr>
-                    <? endforeach; ?>
+                <? endforeach; ?>
             <? endif; ?>
         </tbody>
 
     </table>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalConfidentiality" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Hodnocení aktiva</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            
+            <table class="table" width="100%">
+                <thead>
+                    <tr>
+                        <th style="background-color: gray; color: white;">#</th>
+                        <th style="background-color: green;">1. Nízká</th>
+                        <th style="background-color: yellow;">2. Střední</th>
+                        <th style="background-color: orange;">3. Vysoká</th>
+                        <th style="background-color: red;">4. Kritická</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Důvernost</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td colspan="1" rowspan="3" class="text-center align-middle">Hodnota<br>activa</td>
+                        <td colspan="1" rowspan="6" class="text-center align-middle">Výsledná<br>míra<br>rizika</td>
+                    </tr>
+                    <tr>
+                        <td>Integrity</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Dostupnost</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Dopad</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td colspan="1" rowspan="3" class="text-center align-middle">Míra<br>rizika</td>
+                    </tr>
+                    <tr>
+                        <td>Zranitelnost</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Hrozby</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr>
+            Výsledek:
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Zavřít</button>
+                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+            </div>
+        </div>
+    </div>
 </div>

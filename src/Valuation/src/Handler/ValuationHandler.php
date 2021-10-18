@@ -105,7 +105,9 @@ class ValuationHandler implements MiddlewareInterface
                 'echo' => $this->valuationTable->fetchAllResources(),
                 'testPOST' => $dataForm,
                 'status' => $status,
-                'flashMessages' => $flashMessages
+                'flashMessages' => $flashMessages,
+                'colorLevel' => $this->getLevelColor(),
+                'levelName' => $this->getLevelName()
             ] // parameters to pass to template
         ));
     }
@@ -140,8 +142,30 @@ class ValuationHandler implements MiddlewareInterface
         return new HtmlResponse($this->renderer->render(
             'valuation::impact',
             [
-                //'echo' => $this->valuationTable->fetchAllResources()
-            ] // parameters to pass to template
+                'colorLevel' => $this->getLevelColor(),
+            ] 
         ));
+    }
+
+    public function getLevelColor()
+    {
+        $colorLevel = [];
+        $colorLevel[1] = 'green';
+        $colorLevel[2] = 'yellow';
+        $colorLevel[3] = 'orange';
+        $colorLevel[4] = 'red';
+
+        return $colorLevel;
+    }
+
+    public function getLevelName()
+    {
+        $colorName = [];
+        $colorName[1] = 'Nízká';
+        $colorName[2] = 'Střední';
+        $colorName[3] = 'Vysoká';
+        $colorName[4] = 'Kritická';
+
+        return $colorName;
     }
 }

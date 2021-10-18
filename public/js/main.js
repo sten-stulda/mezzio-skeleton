@@ -12,3 +12,13 @@ function clickedIntegrity(item) {
     $("input:radio[id=Integrity]").attr("checked", false)
     $("input:radio[name=radio_"+$(item).attr("value")+"]").attr("checked", true)
 }
+
+// Initialize tooltip component
+$(function() {
+    $('[data-toggle="tooltip"]').tooltip()
+})
+
+// Initialize popover component
+$(function() {
+    $('[data-toggle="popover"]').popover()
+})
