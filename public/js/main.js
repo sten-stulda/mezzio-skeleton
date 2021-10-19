@@ -71,6 +71,12 @@ window.onload = function () {
         console.log('vybrano');
     })
 
+    $("a[id=hoverTooltip]").on('mouseover', function () {
+        console.log('vybrano');
+        //$("div[id=testTooltip]").
+        document.getElementById('testTooltip').style.display = 'inline';
+    })
+
 }
 
 function setConfidentiality(item) {

@@ -1,3 +1,21 @@
+<style>
+    .hide {
+        display: none;
+    }
+
+    .hoverTooltip:hover+.hide {
+        display: block;
+    }
+</style>
+
+<!-- HTML to write -->
+<a href="#" class="hoverTooltip">Hodnocení test s hover text</a>
+
+<!-- Generated markup by the plugin -->
+<div id="testTooltip" class="hide">
+    test textu kde by byli informace
+</div>
+
 <form action="<?=$this->url('impact')?>" method="post" id="impactForm">
     <input type="hidden" id="aktiva_id" name="aktiva_id" value="<?= $this->id ?>">
     <h3><small>id:</small> <?= $this->id ?></h3>
