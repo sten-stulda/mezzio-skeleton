@@ -50,7 +50,9 @@
 
                             <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                                 <div class="btn-group" role="group">
-                                    <button id="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" type="button" class="btn btn-secondary dropdown-toggle" style="background-color: <?= $colorLevel[$valuation['confidentiality_value']] ?>;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <button id="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" type="button" class="btn btn-sm btn-secondary dropdown-toggle"
+                                        style="background-color: <?= $colorLevel[$valuation['confidentiality_value']] ?>;" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
                                         <? if (empty($valuation['confidentiality_value'])) : ?>
                                             <!-- <a href="<?= $this->url('valuation.confidentiality', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm btn-primary"> -->
                                             Hodnotit
@@ -60,8 +62,11 @@
                                             <!-- <a href="<?= $this->url('valuation.confidentiality', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm">Změna</a> -->
                                         <? endif; ?>
                                     </button>
-                                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop_<?= $valuation['aktiva_id'] ?>">
-                                        <a class="dropdown-item" style="background-color: green;" aria-labelledby="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" href="#" >Nízké</a>
+                                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" id="setConfidentiality">
+                                        <a class="dropdown-item" style="background-color: green;"
+                                            aria-labelledby="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" href="#" data-toggle="tooltip"
+                                            data-placement="top" title="Zde by byl text hodnocení bla bla bla bla" value="1"
+                                            onclick="javascript:setConfidentiality(this)">Nízké</a>
                                         <a class="dropdown-item" style="background-color: yellow;" aria-labelledby="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" href="#">Střední</a>
                                         <a class="dropdown-item" style="background-color: orange;" aria-labelledby="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" href="#">Vysoká</a>
                                         <a class="dropdown-item" style="background-color: red;" aria-labelledby="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" href="#">Kritická</a>
@@ -119,10 +124,11 @@
                         </td>
                         <td>
                             <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalConfidentiality">
+                            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalConfidentiality">
                                 Hodnotit
                             </button>
-                            <a href="<?= $this->url('valuation.asset', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm btn-success">Hodnotit</a>
+                            <a href="<?= $this->url('valuation.confidentiality', ['id' => $valuation['aktiva_id']]) ?>"
+                                class="btn btn-sm btn-success">Hodnotit</a>
                         </td>
                     </tr>
                 <? endforeach; ?>
