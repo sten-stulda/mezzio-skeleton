@@ -13,6 +13,7 @@ declare(strict_types=1);
 return [
     'dependencies' => [
         'factories' => [
+            App\Handler\PongHandler::class => App\Handler\PongHandlerFactory::class,
             Valuation\Handler\AssetHandler::class => Valuation\Handler\AssetHandlerFactory::class,
             Valuation\Handler\AssetsHandler::class => Valuation\Handler\AssetsHandlerFactory::class,
             Valuation\Handler\AvailabilityHandler::class => Valuation\Handler\AvailabilityHandlerFactory::class,
