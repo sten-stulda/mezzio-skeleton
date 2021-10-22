@@ -1,25 +1,32 @@
-<form action="<?=$this->url('confidentiality')?>" method="post">
+<form action="<?= $this->url('confidentiality') ?>" method="post" id="confidentialityForm">
     <input type="hidden" id="aktiva_id" name="aktiva_id" value="<?= $this->id ?>">
     <h3><small>id:</small> <?= $this->id ?></h3>
     <hr>
     <p>Zde budou informace aktiva</p>
     <hr>
-    <h2>1. Hodnocení důvěrnosti aktiva (vybráno: <span style="background-color: <?= $colorLevel[$valuation['confidentiality_value']] ?>"><?=$levelName[$valuation['confidentiality_value']]?></span>)</h2>
+
     <hr>
     <!-- <p><small>2.4.1 ...</small> HA - Hodnota aktiva ... HA = 3^(Du-1)+3^(In-1)+3^(Do-1)</p>
     <hr>
     <h3><small>2.4.2 ...</small> Du - Hodnocení důvěrnosti aktiva (radio with table)</h3> -->
 
-    <p>
-        <?= $this->status ?>
-    </p>
+    <div class="row">
+        <div class="col-md-9">
+            <h2>1. Hodnocení důvěrnosti aktiva (vybráno:
+                <span style="background-color: <?= $colorLevel[$valuation['confidentiality_value']] ?>">
+                    <?= $levelName[$valuation['confidentiality_value']] ?>
+                </span>)
+            </h2>
+        </div>
+        <div class="col-md-3 text-right">*</div>
+    </div>
 
     <table class="table" width="100%">
         <tbody>
             <tr>
                 <? if (isset($this->assets)) : ?>
                     <? foreach ($this->assets as $values) : ?>
-                        <td class="text-center du_level_<?= $values['id'] ?>" style="background-color: <?= $colorLevel[$values['level']] ?>;" value="<?= $values['id'] ?>" onclick="javascript:clickedConfidentiality(this)">
+                        <td class="text-center clickConfidentiality du_level_<?= $values['id'] ?>" style="background-color: <?= $colorLevel[$values['level']] ?>;" value="<?= $values['id'] ?>" onclick="javascript:clickedConfidentiality(this)">
                             <h3><?= $levelName[$values['level']] ?></h3>
                         </td>
                     <? endforeach; ?>
@@ -28,7 +35,7 @@
             <tr>
                 <? if (isset($this->description)) : ?>
                     <? foreach ($this->description as $values) : ?>
-                        <td value="<?= $values['id'] ?>" onclick="javascript:clickedConfidentiality(this)">
+                        <td value="<?= $values['id'] ?>" class="clickConfidentiality" onclick="javascript:clickedConfidentiality(this)">
                             <p><?= $values['description'] ?></p>
                         </td>
                     <? endforeach; ?>
@@ -37,9 +44,9 @@
             <tr>
                 <? if (isset($this->radio)) : ?>
                     <? foreach ($this->radio as $values) : ?>
-                        <td class="text-center" value="<?= $values['value'] ?>" onclick="javascript:clickedConfidentiality(this)">
+                        <td class="text-center clickConfidentiality" value="<?= $values['value'] ?>" onclick="javascript:clickedConfidentiality(this)">
                             <div class="radio">
-                                <input type="radio" id="Confidentiality_<?= $values['id'] ?>" name="setConfidentiality" value="<?= $values['id'] ?>">
+                                <input type="radio" id="Confidentiality_<?= $values['id'] ?>" name="setConfidentiality" value="<?= $values['id'] ?>" <? if ($values['id'] == $valuation['confidentiality_value']) : ?> checked <? endif; ?>>
                             </div>
                         </td>
                     <? endforeach; ?>
@@ -47,13 +54,17 @@
             </tr>
         </tbody>
     </table>
-<hr>
-<div class="row">
-    <div class="col-md-4 text-left"></div>
-    <div class="col-md-4 text-center">
-        <input type="submit" class="btn btn-success" name="confidentiality" value="Potvrdit" />
+    <hr>
+    <div class="row">
+        <div class="col-md-4 text-left"></div>
+        <div class="col-md-4 text-center">
+            <!-- <input type="submit" class="btn btn-success" name="confidentiality" value="Potvrdit" /> -->
+        </div>
+        <div class="col-md-4 text-right">
+            <? if (!empty($valuation['confidentiality_value'])) : ?>
+                <a href="<?= $this->url('valuation.integrity', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm btn-primary">Další (hodnocení integrity)</a>
+            <? endif; ?>
+        </div>
     </div>
-    <div class="col-md-4 text-right"><a href="<?=$this->url('valuation.integrity',['id'=>$valuation['aktiva_id']])?>" class="btn btn-sm btn-primary">Další (hodnocení integrity)</a></div>
-</div>
 
 </form>

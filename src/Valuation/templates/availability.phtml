@@ -1,4 +1,4 @@
-<form action="<?=$this->url('availability')?>" method="post">
+<form action="<?=$this->url('availability')?>" method="post" id="availabilityForm">
     <input type="hidden" id="aktiva_id" name="aktiva_id" value="<?= $this->id ?>">
     <h3><small>id:</small> <?= $this->id ?></h3>
     <hr>
@@ -15,7 +15,7 @@
             <tr>
                 <? if (isset($this->assets)) : ?>
                     <? foreach ($this->assets as $values) : ?>
-                        <td class="text-center du_level_<?= $values['id'] ?>" style="background-color: <?= $colorLevel[$values['level']] ?>;" value="<?= $values['id'] ?>" onclick="javascript:clickedConfidentiality(this)">
+                        <td class="text-center du_level_<?= $values['id'] ?>" style="background-color: <?= $colorLevel[$values['level']] ?>;" value="<?= $values['id'] ?>" onclick="javascript:clickedAvailability(this)">
                             <h3><?= $levelName[$values['level']] ?></h3>
                         </td>
                     <? endforeach; ?>
@@ -24,7 +24,7 @@
             <tr>
                 <? if (isset($this->description)) : ?>
                     <? foreach ($this->description as $values) : ?>
-                        <td value="<?= $values['id'] ?>" onclick="javascript:clickedConfidentiality(this)">
+                        <td value="<?= $values['id'] ?>" onclick="javascript:clickedAvailability(this)">
                             <p><?= $values['description'] ?></p>
                         </td>
                     <? endforeach; ?>
@@ -33,9 +33,13 @@
             <tr>
                 <? if (isset($this->radio)) : ?>
                     <? foreach ($this->radio as $values) : ?>
-                        <td class="text-center" value="<?= $values['value'] ?>" onclick="javascript:clickedConfidentiality(this)">
+                        <td class="text-center" value="<?= $values['value'] ?>" onclick="javascript:clickedAvailability(this)">
                             <div class="radio">
-                                <input type="radio" id="Availability_<?= $values['id'] ?>" name="setAvailability" value="<?= $values['id'] ?>">
+                                <input type="radio" id="Availability_<?= $values['id'] ?>" name="setAvailability" value="<?= $values['id'] ?>"
+                                <? if($values['id']== $valuation['availability_value']):?>
+                                    checked
+                                <? endif; ?>
+                                >
                             </div>
                         </td>
                     <? endforeach; ?>
@@ -47,9 +51,13 @@
 <div class="row">
     <div class="col-md-4 text-left"><a href="<?=$this->url('valuation.integrity',['id'=>$valuation['aktiva_id']])?>" class="btn btn-sm btn-primary">Předchozí (hodnocení integrity)</a></div>
     <div class="col-md-4 text-center">
-        <input type="submit" class="btn btn-success" name="availability" value="Potvrdit" />
+        <!-- <input type="submit" class="btn btn-success" name="availability" value="Potvrdit" /> -->
     </div>
-    <div class="col-md-4 text-right"><a href="<?=$this->url('valuation.impact',['id'=>$valuation['aktiva_id']])?>" class="btn btn-sm btn-primary">Další (hodnocení dopadů)</a></div>
+    <div class="col-md-4 text-right">
+        <? if(!empty($valuation['availability_value'])):?>
+            <a href="<?=$this->url('valuation.impact',['id'=>$valuation['aktiva_id']])?>" class="btn btn-sm btn-primary">Další (hodnocení dopadů)</a>
+        <? endif; ?>
+    </div>
 </div>
 
 </form>

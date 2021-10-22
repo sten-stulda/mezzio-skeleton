@@ -1,14 +1,34 @@
+/** confidentiality */
 function clickedConfidentiality(item) {
+    console.log(item);
     $("input:radio[id=Confidentiality]").attr("checked", false)
     $("input:radio[name=radio_" + $(item).attr("value") + "]").attr("checked", true)
+    $('#confidentialityForm').delay(200).submit();
 }
 
+/** integrity */
+function clickedIntegrity(item) {
+
+    $("input:radio[id=Integrity]").attr("checked", false)
+    $("input:radio[name=radio_" + $(item).attr("value") + "]").attr("checked", true)
+    $('#integrityForm').delay(200).submit();
+}
+
+/** availability */
+function clickedAvailability(item) {
+    $("input:radio[id=Availability]").attr("checked", false)
+    $("input:radio[name=radio_" + $(item).attr("value") + "]").attr("checked", true)
+    $('#availabilityForm').delay(200).submit();
+}
+
+/** impact */
 function clickedImpact(item) {
     $("input:radio[id=Impact]").attr("checked", false)
     $("input:radio[name=radio_" + $(item).attr("value") + "]").attr("checked", true)
+    $('#impactForm').delay(200).submit();
 }
 
-function clickedIntegrity(item) {
+function clickedIntegritys(item) {
     $("input:radio[id=Integrity]").attr("checked", false)
     $("input:radio[name=radio_" + $(item).attr("value") + "]").attr("checked", true)
 }
@@ -45,6 +65,7 @@ function clickedIntegrity(item) {
 // });
 
 window.onload = function () {
+
     $("input:radio[name=setImpact]").on('change', function () {
         value = $(this).val()
         console.log("Bylo vybráno hodnocení: " + value);

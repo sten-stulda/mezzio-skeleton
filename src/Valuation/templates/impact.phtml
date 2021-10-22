@@ -16,7 +16,7 @@
     test textu kde by byli informace
 </div>
 
-<form action="<?=$this->url('impact')?>" method="post" id="impactForm">
+<form action="<?= $this->url('impact') ?>" method="post" id="impactForm">
     <input type="hidden" id="aktiva_id" name="aktiva_id" value="<?= $this->id ?>">
     <h3><small>id:</small> <?= $this->id ?></h3>
     <hr>
@@ -53,16 +53,16 @@
                         <td class="text-center" style="background-color: gray;color: white;">
                             <?= $values['description'] ?>
                         </td>
-                        <td class="text-center" value="1" onclick="javascript:clickedImpact(this)">
+                        <td class="text-center" value="1" onclick="javascript:clickedImpact(this)" value="1">
                             <?= $values['description_level_1'] ?>
                         </td>
-                        <td class="text-center" value="2" onclick="javascript:clickedImpact(this)">
+                        <td class="text-center" value="2" onclick="javascript:clickedImpact(this)" value="2">
                             <?= $values['description_level_2'] ?>
                         </td>
-                        <td class="text-center" value="3" onclick="javascript:clickedImpact(this)">
+                        <td class="text-center" value="3" onclick="javascript:clickedImpact(this)" value="3">
                             <?= $values['description_level_3'] ?>
                         </td>
-                        <td class="text-center" value="4" onclick="javascript:clickedImpact(this)">
+                        <td class="text-center" value="4" onclick="javascript:clickedImpact(this)" value="4">
                             <?= $values['description_level_4'] ?>
                         </td>
                     </tr>
@@ -72,22 +72,22 @@
                 <td></td>
                 <td class="text-center" value="1" onclick="javascript:clickedImpact(this)">
                     <div class="radio">
-                        <input type="radio" id='Impact_1' name="setImpact" value="1">
+                        <input type="radio" id='Impact_1' name="setImpact" value="1" <? if ($valuation['impact_value'] == '1') : ?> checked <? endif; ?>>
                     </div>
                 </td>
                 <td class="text-center" value="2" onclick="javascript:clickedImpact(this)">
                     <div class="radio">
-                        <input type="radio" id='Impact_2' name="setImpact" value="2">
+                        <input type="radio" id='Impact_2' name="setImpact" value="2" <? if ($valuation['impact_value'] == '2') : ?> checked <? endif; ?>>
                     </div>
                 </td>
                 <td class="text-center" value="3" onclick="javascript:clickedImpact(this)">
                     <div class="radio">
-                        <input type="radio" id='Impact_3' name="setImpact" value="3">
+                        <input type="radio" id='Impact_3' name="setImpact" value="3" <? if ($valuation['impact_value'] == '3') : ?> checked <? endif; ?>>
                     </div>
                 </td>
                 <td class="text-center" value="4" onclick="javascript:clickedImpact(this)">
                     <div class="radio">
-                        <input type="radio" id='Impact_4' name="setImpact" value="4">
+                        <input type="radio" id='Impact_4' name="setImpact" value="4" <? if ($valuation['impact_value'] == '4') : ?> checked <? endif; ?>>
                     </div>
                 </td>
             </tr>
@@ -97,6 +97,10 @@
     <div class="row">
         <div class="col-md-4 text-left"><a href="<?= $this->url('valuation.availability', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm btn-primary">Předchozí (hodnocení dostupnosti)</a></div>
         <div class="col-md-4 text-center">
-            <input type="submit" class="btn btn-success" name="integrity" value="Potvrdit" />
+            <!-- <input type="submit" class="btn btn-success" name="integrity" value="Potvrdit" /> -->
         </div>
-        <div class="col-md-4 text-right"><a href="<?= $this->url('valuation.vulnerability', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm btn-primary">Další (hodnocení zranitelností)</a></div>
+        <div class="col-md-4 text-right">
+            <? if (!empty($valuation['impact_value'])) : ?>
+                <a href="<?= $this->url('valuation.vulnerability', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm btn-primary">Další (hodnocení zranitelností)</a>
+            <? endif; ?>
+        </div>
