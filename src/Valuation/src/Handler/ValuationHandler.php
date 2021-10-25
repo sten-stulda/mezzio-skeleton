@@ -45,18 +45,23 @@ class ValuationHandler extends BaseHandler
 
         # check if the request is a form post
         if ($request->getMethod() === 'POST') {
-            $requestBoby = $request->getParsedBody();
-            $dataForm = json_decode($requestBoby['json'], true);
+
+            
+
+
+
+            //$requestBoby = $request->getParsedBody();
+            $dataForm = json_decode(file_get_contents('php://input'), true);
 
             //$requestBoby = $request->getParsedBody();
             //$dataForm = json_decode($requestBoby['json'], true);
          
-            if (!empty($dataForm['aktiva_id']) && !empty($dataForm['aktiva_column']) && !empty($dataForm['aktiva_value'])) {
-                return new JsonResponse(['ok' => $dataForm]);
-            } else {
-                return new JsonResponse(['error' => $dataForm]);
-            }
-            //return new JsonResponse(['error'=> 'blabla']);
+            // if (!empty($dataForm['aktiva_id']) && !empty($dataForm['aktiva_column']) && !empty($dataForm['aktiva_value'])) {
+            //     return new JsonResponse(['ok' => $dataForm]);
+            // } else {
+            //     return new JsonResponse(['error' => $dataForm]);
+            // }
+            return new JsonResponse($dataForm);
         }
 
         // // Render and return a response:

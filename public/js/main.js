@@ -214,31 +214,37 @@ function setConfidentiality(item) {
     aktiva_value: $(item).attr("value"),
   };
 
-  var data = new FormData();
-  data.append("json", JSON.stringify(payload));
+  // var data = new FormData();
+  // data.append("json", JSON.stringify(payload));
 
-  var http = new XMLHttpRequest();
-  var url = '/valuation';
-  var params = payload;
-  http.open('POST', url, true);
+  // var http = new XMLHttpRequest();
+  // var url = '/valuation';
+  // var params = payload;
+  // http.open('POST', url, true);
   
-  //Send the proper header information along with the request
-  http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  // //Send the proper header information along with the request
+  // http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
   
-  http.onreadystatechange = function() {//Call a function when the state changes.
-    alert(http.responseText);
-  }
-  http.send(params);
+  // http.onreadystatechange = function() {//Call a function when the state changes.
+  //   alert(http.responseText);
+  // }
+  // http.send(params);
 
-  // fetch("/valuation", {
-  //   method: "POST",
-  // 	body: JSON.stringify(data),
-  // })
-  //   .then(function (res) {
-  //     return res.json;
-  //   })
-  //   .then(function (data) {
-  //     alert(JSON.stringify(data));
-  //     //location.href = "/valuation";
-  //   });
+  console.log(JSON.stringify(payload));
+
+  fetch("/valuation", {
+    method: "POST",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+  	body: JSON.stringify(payload),
+  })
+    .then(function (res) {
+      return res.json();
+    })
+    .then(function (data) {
+      alert(JSON.stringify(data));
+      //location.href = "/valuation";
+    });
 }

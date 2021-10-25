@@ -56,10 +56,10 @@
                                         </button>
 
                                         <div class="dropdown-menu" aria-labelledby="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" id="setConfidentiality">
-                                        <form id="form_1_<?= $valuation['aktiva_id'] ?>">   
-                                        <button class="dropdown-item" style="background-color: green;" aria-labelledby="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" data-toggle="tooltip" data-placement="top" title="Zde by byl text hodnocení bla bla bla bla" aktiva_id="<?= $valuation['aktiva_id'] ?>" value="1" onclick="javascript:setConfidentiality(this)">Nízké*</button>
+                                      
+                                        <button class="dropdown-item" style="background-color: green;" aria-labelledby="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" data-toggle="tooltip" data-placement="top" title="Zde by byl text hodnocení bla bla bla bla" aktiva_id="<?= $valuation['aktiva_id'] ?>" value="1" onclick="setConfidentiality(this)">Nízké*</button>
                                             <!-- <input type="submit" class="btn btn-success" name="vulnerability" value="Potvrdit" /> -->
-            </form>
+
                                             <a class="dropdown-item" style="background-color: yellow;" aria-labelledby="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" href="">Střední</a>
                                             <a class="dropdown-item" style="background-color: orange;" aria-labelledby="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" href="">Vysoká</a>
                                             <a class="dropdown-item" style="background-color: red;" aria-labelledby="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" href="">Kritická</a>
