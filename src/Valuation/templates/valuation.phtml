@@ -7,7 +7,7 @@
         }
     </style>
 
-    <h1>Exist valuation aktiva*</h1>
+    <h1>Exist valuation aktiva</h1>
 
     <p id="demo"></p>
 
@@ -32,100 +32,160 @@
         </thead>
 
         <tbody>
-            
-                <?php if (isset($this->echo)) : ?>
-                    <?php foreach ($this->echo as $valuation) : ?>
-                        <tr>
-                            <td>
-                                <?= $valuation['id'] ?>
-                            </td>
-                            <td>
-                                <?= $valuation['aktiva_id'] ?>
-                            </td>
-                            <td>
+            <?php if (isset($this->echo)) : ?>
+            <?php foreach ($this->echo as $valuation) : ?>
+            <tr>
+                <td>
+                    <?= $valuation['id'] ?>
+                </td>
+                <td>
+                    <?= $valuation['aktiva_id'] ?>
+                </td>
+                <td>
+                    <button id="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" type="button" class="btn btn-sm btn-secondary dropdown-toggle"
+                        <?php if (!empty($valuation['confidentiality_value'])) : ?> style="background-color:
+                        <?= $colorLevel[$valuation['confidentiality_value']] ?>;"
+                        <?php endif; ?> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <?php if (empty($valuation['confidentiality_value'])) : ?>
+                        Hodnotit
+                        <?php else : ?>
+                        <?= $levelName[$valuation['confidentiality_value']] ?>
+                        <?php endif; ?>
+                    </button>
 
-                                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                                    <div class="btn-group" role="group">
+                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" id="setConfidentiality">
 
-                                        <button id="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" type="button" class="btn btn-sm btn-secondary dropdown-toggle" <?php if (!empty($valuation['confidentiality_value'])) : ?> style="background-color: <?= $colorLevel[$valuation['confidentiality_value']] ?>;" <?php endif; ?> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <?php if (empty($valuation['confidentiality_value'])) : ?>
-                                                Hodnotit
-                                            <?php else : ?>
-                                                <?= $levelName[$valuation['confidentiality_value']] ?>
-                                            <?php endif; ?>
-                                        </button>
+                        <button class="dropdown-item" style="background-color: green;"
+                            aria-labelledby="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" data-toggle="tooltip" data-placement="top"
+                            title="Zde by byl text hodnocení bla bla bla bla" aktiva_id="<?= $valuation['aktiva_id'] ?>" value="1"
+                            onclick="setConfidentiality(this)">Nízké*</button>
+                        <button class="dropdown-item" style="background-color: yellow;"
+                            aria-labelledby="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" data-toggle="tooltip" data-placement="top"
+                            title="Zde by byl text hodnocení bla bla bla bla" aktiva_id="<?= $valuation['aktiva_id'] ?>" value="2"
+                            onclick="setConfidentiality(this)">Střední</button>
+                        <button class="dropdown-item" style="background-color: orange;"
+                            aria-labelledby="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" data-toggle="tooltip" data-placement="top"
+                            title="Zde by byl text hodnocení bla bla bla bla" aktiva_id="<?= $valuation['aktiva_id'] ?>" value="3"
+                            onclick="setConfidentiality(this)">Vysoká</button>
+                        <button class="dropdown-item" style="background-color: red;"
+                            aria-labelledby="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" data-toggle="tooltip" data-placement="top"
+                            title="Zde by byl text hodnocení bla bla bla bla" aktiva_id="<?= $valuation['aktiva_id'] ?>" value="4"
+                            onclick="setConfidentiality(this)">Kritická</button>
+                        </div>
 
-                                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" id="setConfidentiality">
-                                      
-                                        <button class="dropdown-item" style="background-color: green;" aria-labelledby="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" data-toggle="tooltip" data-placement="top" title="Zde by byl text hodnocení bla bla bla bla" aktiva_id="<?= $valuation['aktiva_id'] ?>" value="1" onclick="setConfidentiality(this)">Nízké*</button>
-                                            <!-- <input type="submit" class="btn btn-success" name="vulnerability" value="Potvrdit" /> -->
-
-                                            <a class="dropdown-item" style="background-color: yellow;" aria-labelledby="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" href="">Střední</a>
-                                            <a class="dropdown-item" style="background-color: orange;" aria-labelledby="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" href="">Vysoká</a>
-                                            <a class="dropdown-item" style="background-color: red;" aria-labelledby="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" href="">Kritická</a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- <?php if (empty($valuation['confidentiality_value'])) : ?>
-                                <a href="<?= $this->url('valuation.confidentiality', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm btn-primary">Hodnotit</a>
-                            <?php else : ?>
-                                <?= $valuation['confidentiality_value'] ?>
-                                <a href="<?= $this->url('valuation.confidentiality', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm">Změna</a>
-                            <?php endif; ?> -->
-                            </td>
-                            <td>
-                                <?php if (empty($valuation['integrity_value'])) : ?>
-                                    <a href="<?= $this->url('valuation.integrity', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm btn-primary">Hodnotit</a>
-                                <?php else : ?>
-                                    <?= $valuation['integrity_value'] ?> <a href="<?= $this->url('valuation.integrity', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm">Změna</a>
-                                <?php endif; ?>
-                            </td>
-                            <td>
-                                <?php if (empty($valuation['availability_value'])) : ?>
-                                    <a href="<?= $this->url('valuation.availability', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm btn-primary">Hodnotit</a>
-                                <?php else : ?>
-                                    <?= $valuation['availability_value'] ?> <a href="<?= $this->url('valuation.availability', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm">Změna</a>
-                                <?php endif; ?>
-                            </td>
-                            <td class="text-center">
-                                <?= $valuation['asset_value'] ?>
-                            </td>
-                            <td>
-                                <?php if (empty($valuation['impact_value'])) : ?>
-                                    <a href="<?= $this->url('valuation.impact', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm btn-primary">Hodnotit</a>
-                                <?php else : ?>
-                                    <?= $valuation['impact_value'] ?> <a href="<?= $this->url('valuation.impact', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm">Změna</a>
-                                <?php endif; ?>
-                            </td>
-                            <td>
-                                <?php if (empty($valuation['vulnerability_value'])) : ?>
-                                    <a href="<?= $this->url('valuation.availability', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm btn-primary">Hodnotit</a>
-                                <?php else : ?>
-                                    <?= $valuation['vulnerability_value'] ?> <a href="<?= $this->url('valuation.vulnerability', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm">Změna</a>
-                                <?php endif; ?>
-                            </td>
-                            <td>
-                                <?php if (empty($valuation['threat_value'])) : ?>
-                                    <a href="<?= $this->url('valuation.threat', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm btn-primary">Hodnotit</a>
-                                <?php else : ?>
-                                    <?= $valuation['threat_value'] ?> <a href="<?= $this->url('valuation.threat', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm">Změna</a>
-                                <?php endif; ?>
-                            </td>
-                            <td>
-                                <?= $valuation['result_of_degree_of_risk'] ?>
-                            </td>
-                            <td>
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalConfidentiality">
-                                    Hodnotit
-                                </button>
-                                <a href="<?= $this->url('valuation.confidentiality', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm btn-success">Hodnotit</a>
-                            </td>
-                        </tr>
+                </td>
+                <td>
+                    <button id="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" type="button" class="btn btn-sm btn-secondary dropdown-toggle"
+                        <?php if (!empty($valuation['integrity_value'])) : ?> style="background-color:
+                        <?= $colorLevel[$valuation['integrity_value']] ?>;"
+                        <?php endif; ?> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <?php if (empty($valuation['integrity_value'])) : ?>
+                        Hodnotit
+                        <?php else : ?>
+                        <?= $levelName[$valuation['integrity_value']] ?>
+                        <?php endif; ?>
+                    </button>
+                    
+                    
+                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" id="setIntegrity">
+                    
+                        <button class="dropdown-item" style="background-color: green;"
+                            aria-labelledby="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" data-toggle="tooltip" data-placement="top"
+                            title="Zde by byl text hodnocení bla bla bla bla" aktiva_id="<?= $valuation['aktiva_id'] ?>" value="1"
+                            onclick="setIntegrity(this)">Nízké*</button>
+                        <button class="dropdown-item" style="background-color: yellow;"
+                            aria-labelledby="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" data-toggle="tooltip" data-placement="top"
+                            title="Zde by byl text hodnocení bla bla bla bla" aktiva_id="<?= $valuation['aktiva_id'] ?>" value="2"
+                            onclick="setIntegrity(this)">Střední</button>
+                        <button class="dropdown-item" style="background-color: orange;"
+                            aria-labelledby="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" data-toggle="tooltip" data-placement="top"
+                            title="Zde by byl text hodnocení bla bla bla bla" aktiva_id="<?= $valuation['aktiva_id'] ?>" value="3"
+                            onclick="setIntegrity(this)">Vysoká</button>
+                        <button class="dropdown-item" style="background-color: red;"
+                            aria-labelledby="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" data-toggle="tooltip" data-placement="top"
+                            title="Zde by byl text hodnocení bla bla bla bla" aktiva_id="<?= $valuation['aktiva_id'] ?>" value="4"
+                            onclick="setIntegrity(this)">Kritická</button>
+                    </div>
+                </td>
+                <td>
+                    <button id="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" type="button" class="btn btn-sm btn-secondary dropdown-toggle"
+                        <?php if (!empty($valuation['availability_value'])) : ?> style="background-color:
+                        <?= $colorLevel[$valuation['availability_value']] ?>;"
+                        <?php endif; ?> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <?php if (empty($valuation['availability_value'])) : ?>
+                        Hodnotit
+                        <?php else : ?>
+                        <?= $levelName[$valuation['availability_value']] ?>
+                        <?php endif; ?>
+                    </button>
+                    
+                    
+                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" id="setAvailability">
+                    
+                        <button class="dropdown-item" style="background-color: green;"
+                            aria-labelledby="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" data-toggle="tooltip" data-placement="top"
+                            title="Zde by byl text hodnocení bla bla bla bla" aktiva_id="<?= $valuation['aktiva_id'] ?>" value="1"
+                            onclick="setAvailability(this)">Nízké*</button>
+                        <button class="dropdown-item" style="background-color: yellow;"
+                            aria-labelledby="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" data-toggle="tooltip" data-placement="top"
+                            title="Zde by byl text hodnocení bla bla bla bla" aktiva_id="<?= $valuation['aktiva_id'] ?>" value="2"
+                            onclick="setAvailability(this)">Střední</button>
+                        <button class="dropdown-item" style="background-color: orange;"
+                            aria-labelledby="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" data-toggle="tooltip" data-placement="top"
+                            title="Zde by byl text hodnocení bla bla bla bla" aktiva_id="<?= $valuation['aktiva_id'] ?>" value="3"
+                            onclick="setAvailability(this)">Vysoká</button>
+                        <button class="dropdown-item" style="background-color: red;"
+                            aria-labelledby="btnGroupDrop_<?= $valuation['aktiva_id'] ?>" data-toggle="tooltip" data-placement="top"
+                            title="Zde by byl text hodnocení bla bla bla bla" aktiva_id="<?= $valuation['aktiva_id'] ?>" value="4"
+                            onclick="setAvailability(this)">Kritická</button>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <?= $valuation['asset_value'] ?>
+                </td>
+                <td>
+                    <?php if (empty($valuation['impact_value'])) : ?>
+                    <a href="<?= $this->url('valuation.impact', ['id' => $valuation['aktiva_id']]) ?>"
+                        class="btn btn-sm btn-primary">Hodnotit</a>
+                    <?php else : ?>
+                    <?= $valuation['impact_value'] ?> <a href="<?= $this->url('valuation.impact', ['id' => $valuation['aktiva_id']]) ?>"
+                        class="btn btn-sm">Změna</a>
+                    <?php endif; ?>
+                    </td>
+                    <td>
+                        <?php if (empty($valuation['vulnerability_value'])) : ?>
+                    <a href="<?= $this->url('valuation.availability', ['id' => $valuation['aktiva_id']]) ?>"
+                        class="btn btn-sm btn-primary">Hodnotit</a>
+                    <?php else : ?>
+                    <?= $valuation['vulnerability_value'] ?> <a
+                        href="<?= $this->url('valuation.vulnerability', ['id' => $valuation['aktiva_id']]) ?>" class="btn btn-sm">Změna</a>
+                    <?php endif; ?>
+                    </td>
+                    <td>
+                        <?php if (empty($valuation['threat_value'])) : ?>
+                    <a href="<?= $this->url('valuation.threat', ['id' => $valuation['aktiva_id']]) ?>"
+                        class="btn btn-sm btn-primary">Hodnotit</a>
+                    <?php else : ?>
+                    <?= $valuation['threat_value'] ?> <a href="<?= $this->url('valuation.threat', ['id' => $valuation['aktiva_id']]) ?>"
+                        class="btn btn-sm">Změna</a>
+                    <?php endif; ?>
+                    </td>
+                    <td>
+                        <?= $valuation['result_of_degree_of_risk'] ?>
+                    </td>
+                    <td>
+                        <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-sm btn-primary" data-toggle="modal"
+                        onclick="getValueModal(<?=$valuation['aktiva_id']?>)">
+                        Hodnotit
+                    </button>
+                    <a href="<?= $this->url('valuation.confidentiality', ['id' => $valuation['aktiva_id']]) ?>"
+                        class="btn btn-sm btn-success">Hodnotit</a>
+                    </td>
+                    </tr>
                     <?php endforeach; ?>
-                <?php endif; ?>
-                
+                    <?php endif; ?>
+
         </tbody>
 
     </table>
@@ -134,7 +194,8 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="modalConfidentiality" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modalValuation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -144,7 +205,7 @@
                 </button>
             </div>
             <div class="modal-body">
-
+                <input id="aktiva_id" type="hidden">
                 <table class="table" width="100%">
                     <thead>
                         <tr>
@@ -158,10 +219,10 @@
                     <tbody>
                         <tr id="modal_">
                             <td style="background-color: lightgray;">Důvernost</td>
-                            <td class="text-center"><input type="radio" value="1" onclick="javascript:sendConfidentiality()"></td>
-                            <td class="text-center"><input type="radio" value="1" onclick="javascript:sendConfidentiality()"></td>
-                            <td class="text-center"><input type="radio" value="1" onclick="javascript:sendConfidentiality()"></td>
-                            <td class="text-center"><input type="radio" value="1" onclick="javascript:sendConfidentiality()"></td>
+                            <td class="text-center"><input type="radio" name="setConfidentiality" value="1" onclick="modalSetValuation(this)"></td>
+                            <td class="text-center"><input type="radio" name="setConfidentiality" value="2" onclick="modalSetValuation(this)"></td>
+                            <td class="text-center"><input type="radio" name="setConfidentiality" value="3" onclick="modalSetValuation(this)"></td>
+                            <td class="text-center"><input type="radio" name="setConfidentiality" value="4" onclick="modalSetValuation(this)"></td>
                         </tr>
                         <tr>
                             <td style="background-color: lightgray;">Integrity</td>

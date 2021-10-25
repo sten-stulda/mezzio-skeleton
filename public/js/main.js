@@ -205,32 +205,31 @@ window.onload = function () {
   });
 
 
+  // $('#modalValuation').on('show.bs.modal', function (e) {
+  //   //$(this).val();
+  //   let btn = $(e.relatedTarget);
+  //   console.log(e); // e.related here is the element that opened the modal, specifically the row button
+  //   //let id = btn.data('id'); // this is how you get the of any `data` attribute of an element
+  //   //$('.saveEdit').data('id', id); // then pass it to the button inside the modal
+  // })
+
+  // aktiva_id
+
+
 };
 
-function setConfidentiality(item) {
+function getValueModal(id) {
+  console.log(id);
+  document.getElementById("aktiva_id").value = id;
+  //$('#aktiva_id').value(id);
+  $('#modalValuation').modal('show');
+}
+
+function modalSetValuation(item) {
   var payload = {
-    aktiva_id: $(item).attr("aktiva_id"),
-    aktiva_column: 'confidentiality_value',
-    aktiva_value: $(item).attr("value"),
+    aktiva_id: $("input:hidden[id=aktiva_id]").attr("value"),
+    confidentiality_value: $(item).attr("value"),
   };
-
-  // var data = new FormData();
-  // data.append("json", JSON.stringify(payload));
-
-  // var http = new XMLHttpRequest();
-  // var url = '/valuation';
-  // var params = payload;
-  // http.open('POST', url, true);
-  
-  // //Send the proper header information along with the request
-  // http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-  
-  // http.onreadystatechange = function() {//Call a function when the state changes.
-  //   alert(http.responseText);
-  // }
-  // http.send(params);
-
-  console.log(JSON.stringify(payload));
 
   fetch("/valuation", {
     method: "POST",
@@ -238,13 +237,89 @@ function setConfidentiality(item) {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-  	body: JSON.stringify(payload),
+    body: JSON.stringify(payload),
   })
     .then(function (res) {
       return res.json();
     })
     .then(function (data) {
-      alert(JSON.stringify(data));
+      //console.log(JSON.stringify(data));
+      //alert(JSON.stringify(data));
+      //location.reload(this);
+      //location.href = "/valuation";
+    });
+}
+
+function setConfidentiality(item) {
+  var payload = {
+    aktiva_id: $(item).attr("aktiva_id"),
+    confidentiality_value: $(item).attr("value"),
+  };
+
+  fetch("/valuation", {
+    method: "POST",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload),
+  })
+    .then(function (res) {
+      return res.json();
+    })
+    .then(function (data) {
+      //alert(JSON.stringify(data));
+      location.reload();
+      //location.href = "/valuation";
+    });
+}
+
+function setIntegrity(item) {
+  var payload = {
+    aktiva_id: $(item).attr("aktiva_id"),
+    integrity_value: $(item).attr("value"),
+  };
+
+  fetch("/valuation", {
+    method: "POST",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload),
+  })
+    .then(function (res) {
+      return res.json();
+    })
+    .then(function (data) {
+      //console.log(JSON.stringify(data));
+      //alert(JSON.stringify(data));
+      location.reload();
+      //location.href = "/valuation";
+    });
+}
+
+function setAvailability(item) {
+  var payload = {
+    aktiva_id: $(item).attr("aktiva_id"),
+    availability_value: $(item).attr("value"),
+  };
+
+  fetch("/valuation", {
+    method: "POST",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload),
+  })
+    .then(function (res) {
+      return res.json();
+    })
+    .then(function (data) {
+      //console.log(JSON.stringify(data));
+      //alert(JSON.stringify(data));
+      location.reload();
       //location.href = "/valuation";
     });
 }

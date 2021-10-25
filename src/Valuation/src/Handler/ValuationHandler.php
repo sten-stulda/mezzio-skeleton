@@ -46,22 +46,43 @@ class ValuationHandler extends BaseHandler
         # check if the request is a form post
         if ($request->getMethod() === 'POST') {
 
-            
-
-
-
-            //$requestBoby = $request->getParsedBody();
-            $dataForm = json_decode(file_get_contents('php://input'), true);
+            $json = file_get_contents("php://input");
+            $dataForm = json_decode($json, true);
 
             //$requestBoby = $request->getParsedBody();
             //$dataForm = json_decode($requestBoby['json'], true);
-         
-            // if (!empty($dataForm['aktiva_id']) && !empty($dataForm['aktiva_column']) && !empty($dataForm['aktiva_value'])) {
-            //     return new JsonResponse(['ok' => $dataForm]);
-            // } else {
-            //     return new JsonResponse(['error' => $dataForm]);
-            // }
-            return new JsonResponse($dataForm);
+
+            /** confidentiality */
+            if (!empty($dataForm['aktiva_id']) && !empty($dataForm['confidentiality_value'])) {
+                $this->valuationTable->updateConfidentialityValuation([
+                    'aktiva_id' => $dataForm['aktiva_id'],
+                    'setConfidentiality' => $dataForm['confidentiality_value']
+                ]);
+                $this->complete_evaluation($dataForm);
+                return new JsonResponse(['ok' => $dataForm]);
+            }
+
+            /** integrity */
+            if (!empty($dataForm['aktiva_id']) && !empty($dataForm['integrity_value'])) {
+                $this->valuationTable->updateIntegrityValuation([
+                    'aktiva_id' => $dataForm['aktiva_id'],
+                    'setIntegrity' => $dataForm['integrity_value']
+                ]);
+                $this->complete_evaluation($dataForm);
+                return new JsonResponse(['ok' => $dataForm]);
+            }
+
+            /** availability */
+            if (!empty($dataForm['aktiva_id']) && !empty($dataForm['availability_value'])) {
+                $this->valuationTable->updateAvailabilityValuation([
+                    'aktiva_id' => $dataForm['aktiva_id'],
+                    'setAvailability' => $dataForm['availability_value']
+                ]);
+                $this->complete_evaluation($dataForm);
+                return new JsonResponse(['ok' => $dataForm]);
+            }
+
+            //return new JsonResponse($dataForm);
         }
 
         // // Render and return a response:
@@ -82,7 +103,7 @@ class ValuationHandler extends BaseHandler
     public function complete_evaluation($aktiva_id)
     {
         /** jaké jsou hodnoty */
-        $data = $this->valuationTable->getValuationById((int) $aktiva_id);
+        $data = $this->valuationTable->getValuationById((int) $aktiva_id['aktiva_id']);
         if (!empty($data['confidentiality_value']) && !empty($data['integrity_value']) && !empty($data['availability_value'])) {
 
             /** spočítání hodnoty aktiva */

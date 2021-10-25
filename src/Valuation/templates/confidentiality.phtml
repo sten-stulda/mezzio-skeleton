@@ -11,14 +11,14 @@
     <h3><small>2.4.2 ...</small> Du - Hodnocení důvěrnosti aktiva (radio with table)</h3> -->
 
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-12">
             <h2>1. Hodnocení důvěrnosti aktiva (vybráno:
                 <span style="background-color: <?= $colorLevel[$valuation['confidentiality_value']] ?>">
                     <?= $levelName[$valuation['confidentiality_value']] ?>
                 </span>)
             </h2>
+            
         </div>
-        <div class="col-md-3 text-right">*</div>
     </div>
 
     <table class="table" width="100%">
@@ -32,7 +32,7 @@
                     <?php endforeach; ?>
                 <?php endif; ?>
             </tr>
-            <tr>
+            <tr id="description" style="display: none;">
                 <?php if (isset($this->description)) : ?>
                     <?php foreach ($this->description as $values) : ?>
                         <td value="<?= $values['id'] ?>" class="clickConfidentiality">
