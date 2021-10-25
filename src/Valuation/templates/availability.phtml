@@ -45,11 +45,12 @@
     </table>
 <hr>
 <div class="row">
-    <div class="col-md-4 text-left"><a href="<?=$this->url('valuation.integrity',['id'=>$valuation['aktiva_id']])?>" class="btn btn-sm btn-primary">Předchozí (hodnocení integrity)</a></div>
+    <div class="col-md-4 text-center"><a href="<?=$this->url('valuation.integrity',['id'=>$valuation['aktiva_id']])?>"
+            class="btn btn-sm btn-primary">Předchozí (hodnocení integrity)</a></div>
     <div class="col-md-4 text-center">
         <!-- <input type="submit" class="btn btn-success" name="availability" value="Potvrdit" /> -->
     </div>
-    <div class="col-md-4 text-right">
+    <div class="col-md-4 text-center">
         <?php if(!empty($valuation['availability_value'])):?>
             <a href="<?=$this->url('valuation.impact',['id'=>$valuation['aktiva_id']])?>" class="btn btn-sm btn-primary">Další (hodnocení dopadů)</a>
         <?php endif; ?>

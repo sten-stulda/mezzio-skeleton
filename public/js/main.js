@@ -323,3 +323,78 @@ function setAvailability(item) {
       //location.href = "/valuation";
     });
 }
+
+function setImpact(item) {
+  var payload = {
+    aktiva_id: $(item).attr("aktiva_id"),
+    impact_value: $(item).attr("value"),
+  };
+
+  fetch("/valuation", {
+    method: "POST",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload),
+  })
+    .then(function (res) {
+      return res.json();
+    })
+    .then(function (data) {
+      //console.log(JSON.stringify(data));
+      //alert(JSON.stringify(data));
+      location.reload();
+      //location.href = "/valuation";
+    });
+}
+
+function setVulnerability(item) {
+  var payload = {
+    aktiva_id: $(item).attr("aktiva_id"),
+    vulnerability_value: $(item).attr("value"),
+  };
+
+  fetch("/valuation", {
+    method: "POST",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload),
+  })
+    .then(function (res) {
+      return res.json();
+    })
+    .then(function (data) {
+      //console.log(JSON.stringify(data));
+      //alert(JSON.stringify(data));
+      location.reload();
+      //location.href = "/valuation";
+    });
+}
+
+function setThreat(item) {
+  var payload = {
+    aktiva_id: $(item).attr("aktiva_id"),
+    threat_value: $(item).attr("value"),
+  };
+
+  fetch("/valuation", {
+    method: "POST",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload),
+  })
+    .then(function (res) {
+      return res.json();
+    })
+    .then(function (data) {
+      //console.log(JSON.stringify(data));
+      //alert(JSON.stringify(data));
+      location.reload();
+      //location.href = "/valuation";
+    });
+}

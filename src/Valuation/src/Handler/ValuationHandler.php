@@ -9,12 +9,9 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Laminas\Diactoros\Response\HtmlResponse;
 use Laminas\Diactoros\Response\JsonResponse;
-use Laminas\Diactoros\Response\RedirectResponse;
-use Mezzio\Csrf\CsrfMiddleware;
-use Mezzio\Flash\FlashMessageMiddleware;
 use Mezzio\Template\TemplateRendererInterface;
-use Psr\Http\Server\MiddlewareInterface;
 use Valuation\Base\BaseHandler;
+use Valuation\Model\Table\ResultingRateTable;
 use Valuation\Model\Table\ValuationTable;
 
 class ValuationHandler extends BaseHandler
@@ -24,13 +21,21 @@ class ValuationHandler extends BaseHandler
      */
     private $renderer;
 
+    /**
+     * @var ValuationTable
+     */
     private $valuationTable;
+
+    /** @var ResultingRateTable */
+    private $resultingRateTable;
 
     public function __construct(
         ValuationTable $valuationTable,
+        ResultingRateTable $resultingRateTable,
         TemplateRendererInterface $renderer
     ) {
         $this->valuationTable = $valuationTable;
+        $this->resultingRateTable = $resultingRateTable;
         $this->renderer = $renderer;
     }
 
@@ -82,6 +87,36 @@ class ValuationHandler extends BaseHandler
                 return new JsonResponse(['ok' => $dataForm]);
             }
 
+            /** impact */
+            if (!empty($dataForm['aktiva_id']) && !empty($dataForm['impact_value'])) {
+                $this->valuationTable->updateImpactValuation([
+                    'aktiva_id' => $dataForm['aktiva_id'],
+                    'setImpact' => $dataForm['impact_value']
+                ]);
+                $this->complete_evaluation($dataForm);
+                return new JsonResponse(['ok' => $dataForm]);
+            }
+
+            /** vulnerability */
+            if (!empty($dataForm['aktiva_id']) && !empty($dataForm['vulnerability_value'])) {
+                $this->valuationTable->updateVulnerabilityValuation([
+                    'aktiva_id' => $dataForm['aktiva_id'],
+                    'setVulnerability' => $dataForm['vulnerability_value']
+                ]);
+                $this->complete_evaluation($dataForm);
+                return new JsonResponse(['ok' => $dataForm]);
+            }
+
+            /** threat */
+            if (!empty($dataForm['aktiva_id']) && !empty($dataForm['threat_value'])) {
+                $this->valuationTable->updateThreatValuation([
+                    'aktiva_id' => $dataForm['aktiva_id'],
+                    'setThreat' => $dataForm['threat_value']
+                ]);
+                $this->complete_evaluation($dataForm);
+                return new JsonResponse(['ok' => $dataForm]);
+            }
+
             //return new JsonResponse($dataForm);
         }
 
@@ -115,13 +150,14 @@ class ValuationHandler extends BaseHandler
             ];
             $this->valuationTable->setAssetValue($asset_value);
 
-            $data = $this->valuationTable->getValuationById((int) $aktiva_id);
+            /** hodnoty z tabulky */
+            $data = $this->valuationTable->getValuationById((int) $aktiva_id['aktiva_id']);            
             if (!empty($data['impact_value']) && !empty($data['vulnerability_value']) && !empty($data['threat_value']) && !empty($data['asset_value'])) {
 
                 $resultData = [
-                    'level_of_threat' => $data['threat_value'],
+                    'level_of_impact' => $data['impact_value'],
                     'level_of_vulnerability' => $data['vulnerability_value'],
-                    'level_of_impact' => $data['impact_value']
+                    'level_of_threat' => $data['threat_value']
                 ];
 
                 $resulting = $this->resultingRateTable->getResultValue((array) $resultData);
