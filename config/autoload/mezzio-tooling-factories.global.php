@@ -14,6 +14,8 @@ return [
     'dependencies' => [
         'factories' => [
             App\Handler\PongHandler::class => App\Handler\PongHandlerFactory::class,
+            Valuation\Api\ConfidentialityHandler::class => Valuation\Api\ConfidentialityHandlerFactory::class,
+            Valuation\Api\TestHandler::class => Valuation\Api\TestHandlerFactory::class,
             Valuation\Handler\AssetHandler::class => Valuation\Handler\AssetHandlerFactory::class,
             Valuation\Handler\AssetsHandler::class => Valuation\Handler\AssetsHandlerFactory::class,
             Valuation\Handler\AvailabilityHandler::class => Valuation\Handler\AvailabilityHandlerFactory::class,

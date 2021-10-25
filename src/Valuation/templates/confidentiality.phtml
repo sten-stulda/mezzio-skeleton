@@ -1,4 +1,4 @@
-<form action="<?= $this->url('confidentiality') ?>" method="post" id="confidentialityForm">
+<form action="<?= $this->url('valuation.confidentiality') ?>" method="post" id="confidentialityForm">
     <input type="hidden" id="aktiva_id" name="aktiva_id" value="<?= $this->id ?>">
     <h3><small>id:</small> <?= $this->id ?></h3>
     <hr>
@@ -24,33 +24,37 @@
     <table class="table" width="100%">
         <tbody>
             <tr>
-                <? if (isset($this->assets)) : ?>
-                    <? foreach ($this->assets as $values) : ?>
-                        <td class="text-center clickConfidentiality du_level_<?= $values['id'] ?>" style="background-color: <?= $colorLevel[$values['level']] ?>;" value="<?= $values['id'] ?>" onclick="javascript:clickedConfidentiality(this)">
+                <?php if(isset($this->assets)): ?>
+                    <?php foreach($this->assets as $values): ?>
+                        <td class="text-center clickConfidentiality du_level_<?= $values['id'] ?>" style="background-color: <?= $colorLevel[$values['level']] ?>;" value="<?= $values['id'] ?>">
                             <h3><?= $levelName[$values['level']] ?></h3>
                         </td>
-                    <? endforeach; ?>
-                <? endif; ?>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </tr>
             <tr>
-                <? if (isset($this->description)) : ?>
-                    <? foreach ($this->description as $values) : ?>
-                        <td value="<?= $values['id'] ?>" class="clickConfidentiality" onclick="javascript:clickedConfidentiality(this)">
+                <?php if (isset($this->description)) : ?>
+                    <?php foreach ($this->description as $values) : ?>
+                        <td value="<?= $values['id'] ?>" class="clickConfidentiality">
                             <p><?= $values['description'] ?></p>
                         </td>
-                    <? endforeach; ?>
-                <? endif; ?>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </tr>
             <tr>
-                <? if (isset($this->radio)) : ?>
-                    <? foreach ($this->radio as $values) : ?>
+                <?php if (isset($this->radio)) : ?>
+                    <?php foreach ($this->radio as $values) : ?>
                         <td class="text-center clickConfidentiality" value="<?= $values['value'] ?>" onclick="javascript:clickedConfidentiality(this)">
                             <div class="radio">
-                                <input type="radio" id="Confidentiality_<?= $values['id'] ?>" name="setConfidentiality" value="<?= $values['id'] ?>" <? if ($values['id'] == $valuation['confidentiality_value']) : ?> checked <? endif; ?>>
+                                <input type="radio" id="Confidentiality_<?= $values['id'] ?>" name="setConfidentiality" value="<?= $values['id'] ?>"
+                                <?php if ($values['id'] == $valuation['confidentiality_value']) : ?> 
+                                    checked 
+                                <?php endif; ?>
+                                >
                             </div>
                         </td>
-                    <? endforeach; ?>
-                <? endif; ?>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </tr>
         </tbody>
     </table>

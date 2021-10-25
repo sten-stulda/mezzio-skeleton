@@ -14,9 +14,10 @@ use Mezzio\Csrf\CsrfMiddleware;
 use Mezzio\Flash\FlashMessageMiddleware;
 use Mezzio\Template\TemplateRendererInterface;
 use Psr\Http\Server\MiddlewareInterface;
+use Valuation\Base\BaseHandler;
 use Valuation\Model\Table\ValuationTable;
 
-class ValuationHandler implements MiddlewareInterface
+class ValuationHandler extends BaseHandler
 {
     /**
      * @var TemplateRendererInterface
@@ -37,71 +38,32 @@ class ValuationHandler implements MiddlewareInterface
         ServerRequestInterface $request,
         RequestHandlerInterface $handler
     ): ResponseInterface {
-        // Do some work...
-        # add the signup_csrf value
-        // $csrfToken = $request->getAttribute(CsrfMiddleware::GUARD_ATTRIBUTE);
-        // $this->registerForm->get('signup_csrf')->setValue(
-        //     $csrfToken->generateToken()
-        // );
+
         $status = $request->getMethod();
         $flashMessages = null;
+        $dataForm = [];
 
         # check if the request is a form post
         if ($request->getMethod() === 'POST') {
+            $requestBoby = $request->getParsedBody();
+            $dataForm = json_decode($requestBoby['json'], true);
 
-            $status = 'post_send';
-
-            $dataForm = $request->getParsedBody();
-            $response = $handler->handle($request);
-
-
-
-
-            //$response->getStatusCode();
-
-            if (!empty($dataForm['aktiva_id']) && !empty($dataForm['setConfidentiality'])) {
-                $dataResponseStatus = $response->getStatusCode();
-                $status = 'send OK';
-                //return new RedirectResponse('/valuation/confidentiality/' . $dataForm['aktiva_id'], 302, ['status' => $status]);
+            //$requestBoby = $request->getParsedBody();
+            //$dataForm = json_decode($requestBoby['json'], true);
+         
+            if (!empty($dataForm['aktiva_id']) && !empty($dataForm['aktiva_column']) && !empty($dataForm['aktiva_value'])) {
+                return new JsonResponse(['ok' => $dataForm]);
             } else {
-                //$flashMessages = $request->getAttribute(FlashMessageMiddleware::FLASH_ATTRIBUTE);
-                //$flashMessages->flash('success', 'Account successfully created. You can now login');
-
-                $flashMessages = 'OK';
-
-                $status = 'není vybráno';
-                //return new RedirectResponse('/login', 302,);
-                //return new RedirectResponse('/valuation/confidentiality/' . $dataForm['aktiva_id'], 302, ['status' => $status]);
+                return new JsonResponse(['error' => $dataForm]);
             }
-
-
-            //return new RedirectResponse('/login');
-
-            // $this->registerForm->setInputFilter($this->usersTable->getRegisterFormFilter());
-            // $this->registerForm->setData($request->getParsedBody());
-
-            // if ($this->registerForm->isValid()) {
-            //     $this->usersTable->insertAccount($request->getParsedBody());
-            //     $response = $handler->handle($request);
-
-            //     $flashMessages = $request->getAttribute(FlashMessageMiddleware::FLASH_ATTRIBUTE);
-
-            //     if ($response->getStatusCode() !== 302) {
-
-            //         $flashMessages->flash('success', 'Account successfully created. You can now login');
-            //         # because we have not created the login route yet. We will redirect to the home page
-            //         return new RedirectResponse('/login');
-            //     }
-
-            //     return $response;
-            // }
-
+            //return new JsonResponse(['error'=> 'blabla']);
         }
 
-        // Render and return a response:
+        // // Render and return a response:
         return new HtmlResponse($this->renderer->render(
             'valuation::valuation',
             [
+                'pako' => $dataForm,
                 'echo' => $this->valuationTable->fetchAllResources(),
                 'testPOST' => $dataForm,
                 'status' => $status,
@@ -112,60 +74,41 @@ class ValuationHandler implements MiddlewareInterface
         ));
     }
 
-    public function setConfidentialityAction()
+    public function complete_evaluation($aktiva_id)
     {
-        // Do some work...
-        // Render and return a response:
-        return new HtmlResponse($this->renderer->render(
-            'valuation::valuation',
-            [
-                //'echo' => $this->valuationTable->fetchAllResources()
-            ] // parameters to pass to template
-        ));
-        //return new JsonResponse(['ack' => time()]);
-    }
+        /** jaké jsou hodnoty */
+        $data = $this->valuationTable->getValuationById((int) $aktiva_id);
+        if (!empty($data['confidentiality_value']) && !empty($data['integrity_value']) && !empty($data['availability_value'])) {
 
-    public function createAction()
-    {
-        echo "pako";
-        # ok now I am in the ProfileCOntroller
-        # the reason I am here is because I want us to now display the profile picture
+            /** spočítání hodnoty aktiva */
+            $value = (3 ** ($data['confidentiality_value'] - 1)) + (3 ** ($data['integrity_value'] - 1)) + (3 ** ($data['availability_value'] - 1));
 
-        // $id = (int) $this->params()->fromRoute('id');
-        // $info = $this->usersTable->fetchAccountById((int) $id);
-        // if (! $info) {
-        //     return $this->notFoundAction();
-        // }
+            $asset_value = [
+                'aktiva_id' => $aktiva_id,
+                'asset_value' => $value
+            ];
+            $this->valuationTable->setAssetValue($asset_value);
 
-        // return new ViewModel(['data' => $info]);
+            $data = $this->valuationTable->getValuationById((int) $aktiva_id);
+            if (!empty($data['impact_value']) && !empty($data['vulnerability_value']) && !empty($data['threat_value']) && !empty($data['asset_value'])) {
 
-        return new HtmlResponse($this->renderer->render(
-            'valuation::impact',
-            [
-                'colorLevel' => $this->getLevelColor(),
-            ] 
-        ));
-    }
+                $resultData = [
+                    'level_of_threat' => $data['threat_value'],
+                    'level_of_vulnerability' => $data['vulnerability_value'],
+                    'level_of_impact' => $data['impact_value']
+                ];
 
-    public function getLevelColor()
-    {
-        $colorLevel = [];
-        $colorLevel[1] = 'green';
-        $colorLevel[2] = 'yellow';
-        $colorLevel[3] = 'orange';
-        $colorLevel[4] = 'red';
+                $resulting = $this->resultingRateTable->getResultValue((array) $resultData);
 
-        return $colorLevel;
-    }
+                $degreeRisk = $data['asset_value'] * $resulting['value'];
 
-    public function getLevelName()
-    {
-        $colorName = [];
-        $colorName[1] = 'Nízká';
-        $colorName[2] = 'Střední';
-        $colorName[3] = 'Vysoká';
-        $colorName[4] = 'Kritická';
+                $dataDegreeOfRisk = [
+                    'aktiva_id' => $aktiva_id,
+                    'result_of_degree_of_risk' => $degreeRisk
+                ];
 
-        return $colorName;
+                $this->valuationTable->setDegreeOfRisk($dataDegreeOfRisk);
+            }
+        }
     }
 }

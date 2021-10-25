@@ -13,7 +13,6 @@ use Mezzio\Router\Middleware\ImplicitHeadMiddleware;
 use Mezzio\Router\Middleware\ImplicitOptionsMiddleware;
 use Mezzio\Router\Middleware\MethodNotAllowedMiddleware;
 use Mezzio\Router\Middleware\RouteMiddleware;
-use PhpMiddleware\PhpDebugBar\PhpDebugBarMiddleware;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -25,7 +24,6 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
     // all Exceptions.
     $app->pipe(ErrorHandler::class);
     $app->pipe(ServerUrlMiddleware::class);
-    $app->pipe(PhpDebugBarMiddleware::class);
 
     // Pipe more middleware here that you want to execute on every request:
     // - bootstrapping
