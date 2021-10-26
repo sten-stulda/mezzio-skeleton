@@ -310,39 +310,39 @@
                         </tr>
                         <tr>
                             <td style="background-color: lightgray;">Integrity</td>
-                            <td class="text-center"><input type="radio"></td>
-                            <td class="text-center"><input type="radio"></td>
-                            <td class="text-center"><input type="radio"></td>
-                            <td class="text-center"><input type="radio"></td>
+                            <td class="text-center"><input type="radio" name="setIntegrity" value="1" onclick="modalSetValuation(this)"></td>
+                            <td class="text-center"><input type="radio" name="setIntegrity" value="2" onclick="modalSetValuation(this)"></td>
+                            <td class="text-center"><input type="radio" name="setIntegrity" value="3" onclick="modalSetValuation(this)"></td>
+                            <td class="text-center"><input type="radio" name="setIntegrity" value="4" onclick="modalSetValuation(this)"></td>
                         </tr>
                         <tr>
                             <td style="background-color: lightgray;">Dostupnost</td>
-                            <td class="text-center"><input type="radio"></td>
-                            <td class="text-center"><input type="radio"></td>
-                            <td class="text-center"><input type="radio"></td>
-                            <td class="text-center"><input type="radio"></td>
+                            <td class="text-center"><input type="radio" name="setAvailability" value="1" onclick="modalSetValuation(this)"></td>
+                            <td class="text-center"><input type="radio" name="setAvailability" value="2" onclick="modalSetValuation(this)"></td>
+                            <td class="text-center"><input type="radio" name="setAvailability" value="3" onclick="modalSetValuation(this)"></td>
+                            <td class="text-center"><input type="radio" name="setAvailability" value="4" onclick="modalSetValuation(this)"></td>
                         </tr>
                         <tr>
                             <td style="background-color: lightgray;">Dopad</td>
-                            <td class="text-center"></td>
-                            <td class="text-center"></td>
-                            <td class="text-center"></td>
-                            <td class="text-center"></td>
+                            <td class="text-center"><input type="radio" name="setImpact" value="1" onclick="modalSetValuation(this)"></td>
+                            <td class="text-center"><input type="radio" name="setImpact" value="2" onclick="modalSetValuation(this)"></td>
+                            <td class="text-center"><input type="radio" name="setImpact" value="3" onclick="modalSetValuation(this)"></td>
+                            <td class="text-center"><input type="radio" name="setImpact" value="4" onclick="modalSetValuation(this)"></td>
 
                         </tr>
                         <tr>
                             <td style="background-color: lightgray;">Zranitelnost</td>
-                            <td class="text-center"></td>
-                            <td class="text-center"></td>
-                            <td class="text-center"></td>
-                            <td class="text-center"></td>
+                            <td class="text-center"><input type="radio" name="setVulnerability" value="1" onclick="modalSetValuation(this)"></td>
+                            <td class="text-center"><input type="radio" name="setVulnerability" value="2" onclick="modalSetValuation(this)"></td>
+                            <td class="text-center"><input type="radio" name="setVulnerability" value="3" onclick="modalSetValuation(this)"></td>
+                            <td class="text-center"><input type="radio" name="setVulnerability" value="4" onclick="modalSetValuation(this)"></td>
                         </tr>
                         <tr>
                             <td style="background-color: lightgray;">Hrozby</td>
-                            <td class="text-center"></td>
-                            <td class="text-center"></td>
-                            <td class="text-center"></td>
-                            <td class="text-center"></td>
+                            <td class="text-center"><input type="radio" name="setThreat" value="1" onclick="modalSetValuation(this)"></td>
+                            <td class="text-center"><input type="radio" name="setThreat" value="2" onclick="modalSetValuation(this)"></td>
+                            <td class="text-center"><input type="radio" name="setThreat" value="3" onclick="modalSetValuation(this)"></td>
+                            <td class="text-center"><input type="radio" name="setThreat" value="4" onclick="modalSetValuation(this)"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -357,9 +357,9 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td id="hodnotaAktiva"></td>
+                            <td id="vyslednaMiraRizika"></td>
+                            <td id="miraRizika"></td>
                         </tr>
                         <tr>
                             <td colspan="1" class="text-center align-middle"><b>Výsledek<b></td>

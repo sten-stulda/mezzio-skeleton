@@ -221,15 +221,17 @@ window.onload = function () {
 function getValueModal(id) {
   console.log(id);
   document.getElementById("aktiva_id").value = id;
-  //$('#aktiva_id').value(id);
   $('#modalValuation').modal('show');
 }
 
 function modalSetValuation(item) {
   var payload = {
     aktiva_id: $("input:hidden[id=aktiva_id]").attr("value"),
-    confidentiality_value: $(item).attr("value"),
+    columns: $(item).attr("name"),
+    value: $(item).attr("value"),
   };
+
+  console.log(payload);
 
   fetch("/valuation", {
     method: "POST",
