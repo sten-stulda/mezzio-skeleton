@@ -1,4 +1,5 @@
 /** confidentiality */
+
 function clickedConfidentiality(item) {
   var payload = {
     aktiva_id: $("input:hidden[name=aktiva_id]").attr("value"),
@@ -218,10 +219,101 @@ window.onload = function () {
 
 };
 
-function getValueModal(id) {
-  console.log(id);
-  document.getElementById("aktiva_id").value = id;
+function getValueModal(item) {
+
+  document.getElementById("aktiva_id").value = $(item).attr("aktiva_id");
+
+  /** zde se vrátí hodnoty pro genreování tabulky */
+  var payload = {
+    aktiva_id: $(item).attr("aktiva_id"),
+    getValueModal: true,
+  };
+
+  //console.log(payload);
+
+  fetch("/valuation", {
+    method: "POST",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload),
+  })
+    .then(function (res) {
+      return res.json();
+    })
+    .then(function (data) {
+      console.log(JSON.stringify(data));
+      //location.reload();
+      //location.href = "/valuation";
+
+
+      /** setConfidentiality */
+      let inputConfidentiality = document.getElementsByName('setConfidentiality');
+      for (let i = 0; i < inputConfidentiality.length; i++) {
+        if (inputConfidentiality[i].value == data['result']['getValue']['confidentiality_value']
+        ) inputConfidentiality[i].checked = true;
+      }
+
+      /** setIntegrity */
+      let inputIntegrity = document.getElementsByName('setIntegrity');
+      for (let i = 0; i < inputIntegrity.length; i++) {
+        if (inputIntegrity[i].value == data['result']['getValue']['integrity_value']
+        ) inputIntegrity[i].checked = true;
+      }
+
+      /** setAvailability */
+      let inputAvailability = document.getElementsByName('setAvailability');
+      for (let i = 0; i < inputAvailability.length; i++) {
+        if (inputAvailability[i].value == data['result']['getValue']['availability_value']
+        ) inputAvailability[i].checked = true;
+      }
+
+      /** setImpact */
+      let inputImpact = document.getElementsByName('setImpact');
+      for (let i = 0; i < inputImpact.length; i++) {
+        if (inputImpact[i].value == data['result']['getValue']['impact_value']
+        ) inputImpact[i].checked = true;
+      }
+
+      /** setVulnerability */
+      let inputVulnerability = document.getElementsByName('setVulnerability');
+      for (let i = 0; i < inputVulnerability.length; i++) {
+        if (inputVulnerability[i].value == data['result']['getValue']['vulnerability_value']
+        ) inputVulnerability[i].checked = true;
+      }
+
+      /** setThreat */
+      let inputThreat = document.getElementsByName('setThreat');
+      for (let i = 0; i < inputThreat.length; i++) {
+        if (inputThreat[i].value == data['result']['getValue']['threat_value']
+        ) inputThreat[i].checked = true;
+      }
+
+      document.getElementById('hodnotaAktiva').innerText = data['result']['getValue']['asset_value'];
+      document.getElementById('vyslednaMiraRizika').innerText = data['result']['getValue']['result_of_degree_of_risk']; //result_of_degree_of_risk
+      document.getElementById('miraRizika').innerText = data['result']['getValue']['result_of_degree_of_risk'];
+
+
+    })
+    .catch(function (data) {
+
+      // const json = JSON.stringify(data);
+
+      //console.log(JSON.stringify(data));
+      //alert(JSON.stringify(data));
+      //location.reload(this);
+      //location.href = "/valuation";
+
+
+      //$("input[name=setConfidentiality][value=" + data['confidentiality_value'] + "]").("value")
+
+
+    });
+  // console.log(item);
   $('#modalValuation').modal('show');
+
+
 }
 
 function modalSetValuation(item) {
@@ -245,7 +337,16 @@ function modalSetValuation(item) {
       return res.json();
     })
     .then(function (data) {
-      //console.log(JSON.stringify(data));
+      console.log(JSON.stringify(data));
+
+      document.getElementById('hodnotaAktiva').innerText = data['result']['getValue']['asset_value'];
+      document.getElementById('vyslednaMiraRizika').innerText = data['result']['getValue']['result_of_degree_of_risk']; //result_of_degree_of_risk
+      document.getElementById('miraRizika').innerText = data['result']['getValue']['result_of_degree_of_risk'];
+      //location.reload();
+      //location.href = "/valuation";
+    })
+    .catch(function (data) {
+      console.log(JSON.stringify(data));
       //alert(JSON.stringify(data));
       //location.reload(this);
       //location.href = "/valuation";

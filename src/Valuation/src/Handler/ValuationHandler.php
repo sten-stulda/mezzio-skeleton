@@ -118,6 +118,61 @@ class ValuationHandler extends BaseHandler
             }
 
             //return new JsonResponse($dataForm);
+
+            if (!empty($dataForm['aktiva_id']) && !empty($dataForm['columns']) && !empty($dataForm['value'])) {
+
+                if ($dataForm['columns'] == 'setConfidentiality') {
+                    $this->valuationTable->updateConfidentialityValuation([
+                        'aktiva_id' => $dataForm['aktiva_id'],
+                        'setConfidentiality' => $dataForm['value']
+                    ]);
+                }
+
+                if ($dataForm['columns'] == 'setIntegrity') {
+                    $this->valuationTable->updateIntegrityValuation([
+                        'aktiva_id' => $dataForm['aktiva_id'],
+                        'setIntegrity' => $dataForm['value']
+                    ]);
+                }
+
+                if ($dataForm['columns'] == 'setAvailability') {
+                    $this->valuationTable->updateAvailabilityValuation([
+                        'aktiva_id' => $dataForm['aktiva_id'],
+                        'setAvailability' => $dataForm['value']
+                    ]);
+                }
+
+                if ($dataForm['columns'] == 'setImpact') {
+                    $this->valuationTable->updateImpactValuation([
+                        'aktiva_id' => $dataForm['aktiva_id'],
+                        'setImpact' => $dataForm['value']
+                    ]);
+                }
+
+                if ($dataForm['columns'] == 'setVulnerability') {
+                    $this->valuationTable->updateVulnerabilityValuation([
+                        'aktiva_id' => $dataForm['aktiva_id'],
+                        'setVulnerability' => $dataForm['value']
+                    ]);
+                }
+
+                if ($dataForm['columns'] == 'setThreat') {
+                    $this->valuationTable->updateThreatValuation([
+                        'aktiva_id' => $dataForm['aktiva_id'],
+                        'setThreat' => $dataForm['value']
+                    ]);
+                }
+
+                $data['message'] = $this->complete_evaluation($dataForm);
+                $data['getValue'] = $this->valuationTable->getValuationById((int) $dataForm['aktiva_id']);
+                return new JsonResponse(['result' => $data]);
+            }
+
+            if (!empty($dataForm['aktiva_id']) && !empty($dataForm['getValueModal'])) {
+                $data['getValue'] = $this->valuationTable->getValuationById((int) $dataForm['aktiva_id']);
+                //$data['resultingRateTable'] = $this->resultingRateTable->getResultValue();
+                return new JsonResponse(['result' => $data]);
+            }
         }
 
         // // Render and return a response:
@@ -145,7 +200,7 @@ class ValuationHandler extends BaseHandler
             $value = (3 ** ($data['confidentiality_value'] - 1)) + (3 ** ($data['integrity_value'] - 1)) + (3 ** ($data['availability_value'] - 1));
 
             $asset_value = [
-                'aktiva_id' => $aktiva_id,
+                'aktiva_id' => $aktiva_id['aktiva_id'],
                 'asset_value' => $value
             ];
             $this->valuationTable->setAssetValue($asset_value);
@@ -165,7 +220,7 @@ class ValuationHandler extends BaseHandler
                 $degreeRisk = $data['asset_value'] * $resulting['value'];
 
                 $dataDegreeOfRisk = [
-                    'aktiva_id' => $aktiva_id,
+                    'aktiva_id' => $aktiva_id['aktiva_id'],
                     'result_of_degree_of_risk' => $degreeRisk
                 ];
 

@@ -259,8 +259,8 @@
                 </td>
                 <td>
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-sm btn-primary" data-toggle="modal"
-                        onclick="getValueModal(<?=$valuation['aktiva_id']?>)">
+                    <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" aktiva_id="<?= $valuation['aktiva_id'] ?>"
+                        onclick="getValueModal(this)">
                         Hodnotit
                     </button>
                     <a href="<?= $this->url('valuation.confidentiality', ['id' => $valuation['aktiva_id']]) ?>"
@@ -301,7 +301,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr id="modal_">
+                        <tr>
                             <td style="background-color: lightgray;">Důvernost</td>
                             <td class="text-center"><input type="radio" name="setConfidentiality" value="1" onclick="modalSetValuation(this)"></td>
                             <td class="text-center"><input type="radio" name="setConfidentiality" value="2" onclick="modalSetValuation(this)"></td>
@@ -357,9 +357,9 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td id="hodnotaAktiva"></td>
-                            <td id="vyslednaMiraRizika"></td>
-                            <td id="miraRizika"></td>
+                            <td id="hodnotaAktiva" class="text-center align-middle"></td>
+                            <td id="vyslednaMiraRizika" class="text-center align-middle"></td>
+                            <td id="miraRizika" class="text-center align-middle"></td>
                         </tr>
                         <tr>
                             <td colspan="1" class="text-center align-middle"><b>Výsledek<b></td>
