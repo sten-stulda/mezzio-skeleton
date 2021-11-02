@@ -294,6 +294,7 @@ function getValueModal(item) {
       document.getElementById('vyslednaMiraRizika').innerText = data['result']['getValue']['result_of_degree_of_risk']; //result_of_degree_of_risk
       document.getElementById('miraRizika').innerText = data['result']['getValue']['result_of_degree_of_risk'];
 
+      this.setMiraRizikaId(data['result']['getValue']['result_of_degree_of_risk']);
 
     })
     .catch(function (data) {
@@ -341,9 +342,11 @@ function modalSetValuation(item) {
 
       document.getElementById('hodnotaAktiva').innerText = data['result']['getValue']['asset_value'];
       document.getElementById('vyslednaMiraRizika').innerText = data['result']['getValue']['result_of_degree_of_risk']; //result_of_degree_of_risk
-      document.getElementById('miraRizika').innerText = data['result']['getValue']['result_of_degree_of_risk'];
       //location.reload();
       //location.href = "/valuation";
+
+      this.setMiraRizikaId(data['result']['getValue']['result_of_degree_of_risk']);
+
     })
     .catch(function (data) {
       console.log(JSON.stringify(data));
@@ -500,4 +503,28 @@ function setThreat(item) {
       location.reload();
       //location.href = "/valuation";
     });
+}
+
+
+function setMiraRizikaId($value) {
+  if ($value >= 3 && $value <= 99) {
+    document.getElementById('miraRizika').style.background = 'green';
+    document.getElementById('miraRizika').innerText = 'Nízké';
+    document.getElementById('miraRizikaText').innerText = 'Riziko je považováno za přijatelné.';
+  }
+  if ($value >= 100 && $value <= 249) {
+    document.getElementById('miraRizika').style.background = 'yellow';
+    document.getElementById('miraRizika').innerText = 'Střední';
+    document.getElementById('miraRizikaText').innerText = 'Riziko může být sníženo méně náročnými opatřeními nebo v případě vyšší náročnosti opatření je riziko přijatelné.';
+  }
+  if ($value >= 250 && $value <= 399) {
+    document.getElementById('miraRizika').style.background = 'orange';
+    document.getElementById('miraRizika').innerText = 'Vysoké';
+    document.getElementById('miraRizikaText').innerText = 'Riziko je dlouhodobě nepřípustné a musí být zahajeny systematické kroky k jeho odstranění.';
+  }
+  if ($value >= 400 && $value <= 810) {
+    document.getElementById('miraRizika').style.background = 'red';
+    document.getElementById('miraRizika').innerText = 'Kritické';
+    document.getElementById('miraRizikaText').innerText = 'Riziko je nepřípustné a musí být neprodleně zahájeny kroky k jeho odstranení.';
+  }
 }
