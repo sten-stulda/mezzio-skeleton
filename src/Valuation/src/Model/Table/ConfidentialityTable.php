@@ -17,19 +17,11 @@ class ConfidentialityTable extends AbstractTableGateway
         $this->initialize();
     }
 
-    public function getFetchAllData()
+    public function fetchAll()
     {
         $sqlQuery = $this->sql->select();
         $sqlStmt = $this->sql->prepareStatementForSqlObject($sqlQuery);
         $result = $sqlStmt->execute();
-        return $result;
-    }
-
-    public function getConfidentialityById(int $id)
-    {
-        $sqlQuery = $this->sql->select()->where(['id' => $id]);
-        $sqlStmt  = $this->sql->prepareStatementForSqlObject($sqlQuery);
-        $result   = $sqlStmt->execute()->current();
         return $result;
     }
 

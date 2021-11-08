@@ -22,6 +22,7 @@ class ValuationTable extends AbstractTableGateway
         $sqlQuery = $this->sql->select();
         $sqlStmt = $this->sql->prepareStatementForSqlObject($sqlQuery);
         $result = $sqlStmt->execute();
+
         return $result;
     }
 

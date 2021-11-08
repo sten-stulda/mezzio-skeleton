@@ -6,7 +6,6 @@ namespace Valuation\Handler;
 
 use Mezzio\Template\TemplateRendererInterface;
 use Psr\Container\ContainerInterface;
-use Valuation\Model\Table\ResultingRateTable;
 use Valuation\Model\Table\ValuationTable;
 
 class ValuationHandlerFactory
@@ -15,7 +14,6 @@ class ValuationHandlerFactory
     {
         return new ValuationHandler(
             $container->get(ValuationTable::class),
-            $container->get(ResultingRateTable::class),
             $container->get(TemplateRendererInterface::class)
         );
     }

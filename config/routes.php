@@ -5,7 +5,6 @@ declare(strict_types=1);
 use Mezzio\Application;
 use Mezzio\MiddlewareFactory;
 use Psr\Container\ContainerInterface;
-use Valuation\Api\TestHandler;
 
 /**
  * laminas-router route configuration
@@ -42,25 +41,37 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
     
     /** homepage */
     $app->get('/', App\Handler\HomePageHandler::class, 'home');
-    //$app->get('/register', User\Handler\RegisterHandler::class, 'register');
+    $app->get('/register', User\Handler\RegisterHandler::class, 'register');
     
     /** MODULE Valuation */
-    $app->route('/valuation', Valuation\Handler\ValuationHandler::class,['GET','POST'], 'valuation.home');
+    $app->get('/valuation', Valuation\Handler\ValuationHandler::class, 'valuation.home');
     
     
     $app->get('/valuation/assets', Valuation\Handler\AssetsHandler::class, 'valuation.assets');
-    $app->get('/valuation/asset/:id', Valuation\Handler\AssetHandler::class, 'valuation.asset');
+    $app->get('/valuation/asset[/:id]', Valuation\Handler\AssetHandler::class, 'valuation.asset');
 
-    /** page valuation */
-    $app->route('/valuation/confidentiality[/:id]', Valuation\Handler\ConfidentialityHandler::class,['GET','POST'], 'valuation.confidentiality');
-    $app->route('/valuation/integrity[/:id]', Valuation\Handler\IntegrityHandler::class,['GET','POST'], 'valuation.integrity');
-    $app->route('/valuation/availability[/:id]', Valuation\Handler\AvailabilityHandler::class,['GET','POST'], 'valuation.availability');
-    $app->route('/valuation/impact[/:id]', Valuation\Handler\ImpactHandler::class,['GET','POST'], 'valuation.impact');
-    $app->route('/valuation/vulnerability[/:id]', Valuation\Handler\VulnerabilityHandler::class,['GET','POST'], 'valuation.vulnerability');
-    $app->route('/valuation/threat[/:id]', Valuation\Handler\ThreatHandler::class,['GET','POST'], 'valuation.threat');
+    /** valuation */
+    $app->get('/valuation/confidentiality[/:id]', Valuation\Handler\ConfidentialityHandler::class, 'valuation.confidentiality');
+    $app->get('/valuation/integrity[/:id]', Valuation\Handler\IntegrityHandler::class, 'valuation.integrity');
+    $app->get('/valuation/availability[/:id]', Valuation\Handler\AvailabilityHandler::class, 'valuation.availability');
+
+    /** valuation */
+    $app->get('/valuation/impact[/:id]', Valuation\Handler\ImpactHandler::class, 'valuation.impact');
+    $app->get('/valuation/vulnerability[/:id]', Valuation\Handler\VulnerabilityHandler::class, 'valuation.vulnerability');
+    $app->get('/valuation/threat[/:id]', Valuation\Handler\ThreatHandler::class, 'valuation.threat');
     
     /** API */
     $app->get('/api/ping', App\Handler\PingHandler::class, 'api.ping');
-    $app->route('/api/test[/:id]', TestHandler::class,['GET','POST'],'valuation.test');
+
+    //$app->route('/test', Valuation\Handler\ValuationHandler::class,['GET','POST'],'test');
+
+    /** POSTs */
+    $app->post('/valuation', Valuation\Handler\ValuationHandler::class, 'valuation');
+    $app->post('/confidentiality', Valuation\Handler\ConfidentialityHandler::class, 'confidentiality');
+    $app->post('/integrity', Valuation\Handler\IntegrityHandler::class, 'integrity');
+    $app->post('/availability', Valuation\Handler\AvailabilityHandler::class, 'availability');
+    $app->post('/impact', Valuation\Handler\ImpactHandler::class, 'impact');
+    $app->post('/vulnerability', Valuation\Handler\VulnerabilityHandler::class, 'vulnerability');
+    $app->post('/threat', Valuation\Handler\ThreatHandler::class, 'threat');
     
 };

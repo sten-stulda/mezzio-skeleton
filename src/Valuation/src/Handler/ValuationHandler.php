@@ -9,33 +9,27 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Laminas\Diactoros\Response\HtmlResponse;
 use Laminas\Diactoros\Response\JsonResponse;
+use Laminas\Diactoros\Response\RedirectResponse;
+use Mezzio\Csrf\CsrfMiddleware;
+use Mezzio\Flash\FlashMessageMiddleware;
 use Mezzio\Template\TemplateRendererInterface;
-use Valuation\Base\BaseHandler;
-use Valuation\Model\Table\ResultingRateTable;
+use Psr\Http\Server\MiddlewareInterface;
 use Valuation\Model\Table\ValuationTable;
 
-class ValuationHandler extends BaseHandler
+class ValuationHandler implements MiddlewareInterface
 {
     /**
      * @var TemplateRendererInterface
      */
     private $renderer;
 
-    /**
-     * @var ValuationTable
-     */
     private $valuationTable;
-
-    /** @var ResultingRateTable */
-    private $resultingRateTable;
 
     public function __construct(
         ValuationTable $valuationTable,
-        ResultingRateTable $resultingRateTable,
         TemplateRendererInterface $renderer
     ) {
         $this->valuationTable = $valuationTable;
-        $this->resultingRateTable = $resultingRateTable;
         $this->renderer = $renderer;
     }
 
@@ -43,143 +37,71 @@ class ValuationHandler extends BaseHandler
         ServerRequestInterface $request,
         RequestHandlerInterface $handler
     ): ResponseInterface {
-
+        // Do some work...
+        # add the signup_csrf value
+        // $csrfToken = $request->getAttribute(CsrfMiddleware::GUARD_ATTRIBUTE);
+        // $this->registerForm->get('signup_csrf')->setValue(
+        //     $csrfToken->generateToken()
+        // );
         $status = $request->getMethod();
         $flashMessages = null;
-        $dataForm = [];
 
         # check if the request is a form post
         if ($request->getMethod() === 'POST') {
 
-            $json = file_get_contents("php://input");
-            $dataForm = json_decode($json, true);
+            $status = 'post_send';
 
-            //$requestBoby = $request->getParsedBody();
-            //$dataForm = json_decode($requestBoby['json'], true);
+            $dataForm = $request->getParsedBody();
+            $response = $handler->handle($request);
 
-            /** confidentiality */
-            if (!empty($dataForm['aktiva_id']) && !empty($dataForm['confidentiality_value'])) {
-                $this->valuationTable->updateConfidentialityValuation([
-                    'aktiva_id' => $dataForm['aktiva_id'],
-                    'setConfidentiality' => $dataForm['confidentiality_value']
-                ]);
-                $this->complete_evaluation($dataForm);
-                return new JsonResponse(['ok' => $dataForm]);
+
+
+
+            //$response->getStatusCode();
+
+            if (!empty($dataForm['aktiva_id']) && !empty($dataForm['setConfidentiality'])) {
+                $dataResponseStatus = $response->getStatusCode();
+                $status = 'send OK';
+                //return new RedirectResponse('/valuation/confidentiality/' . $dataForm['aktiva_id'], 302, ['status' => $status]);
+            } else {
+                //$flashMessages = $request->getAttribute(FlashMessageMiddleware::FLASH_ATTRIBUTE);
+                //$flashMessages->flash('success', 'Account successfully created. You can now login');
+
+                $flashMessages = 'OK';
+
+                $status = 'není vybráno';
+                //return new RedirectResponse('/login', 302,);
+                //return new RedirectResponse('/valuation/confidentiality/' . $dataForm['aktiva_id'], 302, ['status' => $status]);
             }
 
-            /** integrity */
-            if (!empty($dataForm['aktiva_id']) && !empty($dataForm['integrity_value'])) {
-                $this->valuationTable->updateIntegrityValuation([
-                    'aktiva_id' => $dataForm['aktiva_id'],
-                    'setIntegrity' => $dataForm['integrity_value']
-                ]);
-                $this->complete_evaluation($dataForm);
-                return new JsonResponse(['ok' => $dataForm]);
-            }
 
-            /** availability */
-            if (!empty($dataForm['aktiva_id']) && !empty($dataForm['availability_value'])) {
-                $this->valuationTable->updateAvailabilityValuation([
-                    'aktiva_id' => $dataForm['aktiva_id'],
-                    'setAvailability' => $dataForm['availability_value']
-                ]);
-                $this->complete_evaluation($dataForm);
-                return new JsonResponse(['ok' => $dataForm]);
-            }
+            //return new RedirectResponse('/login');
 
-            /** impact */
-            if (!empty($dataForm['aktiva_id']) && !empty($dataForm['impact_value'])) {
-                $this->valuationTable->updateImpactValuation([
-                    'aktiva_id' => $dataForm['aktiva_id'],
-                    'setImpact' => $dataForm['impact_value']
-                ]);
-                $this->complete_evaluation($dataForm);
-                return new JsonResponse(['ok' => $dataForm]);
-            }
+            // $this->registerForm->setInputFilter($this->usersTable->getRegisterFormFilter());
+            // $this->registerForm->setData($request->getParsedBody());
 
-            /** vulnerability */
-            if (!empty($dataForm['aktiva_id']) && !empty($dataForm['vulnerability_value'])) {
-                $this->valuationTable->updateVulnerabilityValuation([
-                    'aktiva_id' => $dataForm['aktiva_id'],
-                    'setVulnerability' => $dataForm['vulnerability_value']
-                ]);
-                $this->complete_evaluation($dataForm);
-                return new JsonResponse(['ok' => $dataForm]);
-            }
+            // if ($this->registerForm->isValid()) {
+            //     $this->usersTable->insertAccount($request->getParsedBody());
+            //     $response = $handler->handle($request);
 
-            /** threat */
-            if (!empty($dataForm['aktiva_id']) && !empty($dataForm['threat_value'])) {
-                $this->valuationTable->updateThreatValuation([
-                    'aktiva_id' => $dataForm['aktiva_id'],
-                    'setThreat' => $dataForm['threat_value']
-                ]);
-                $this->complete_evaluation($dataForm);
-                return new JsonResponse(['ok' => $dataForm]);
-            }
+            //     $flashMessages = $request->getAttribute(FlashMessageMiddleware::FLASH_ATTRIBUTE);
 
-            //return new JsonResponse($dataForm);
+            //     if ($response->getStatusCode() !== 302) {
 
-            if (!empty($dataForm['aktiva_id']) && !empty($dataForm['columns']) && !empty($dataForm['value'])) {
+            //         $flashMessages->flash('success', 'Account successfully created. You can now login');
+            //         # because we have not created the login route yet. We will redirect to the home page
+            //         return new RedirectResponse('/login');
+            //     }
 
-                if ($dataForm['columns'] == 'setConfidentiality') {
-                    $this->valuationTable->updateConfidentialityValuation([
-                        'aktiva_id' => $dataForm['aktiva_id'],
-                        'setConfidentiality' => $dataForm['value']
-                    ]);
-                }
+            //     return $response;
+            // }
 
-                if ($dataForm['columns'] == 'setIntegrity') {
-                    $this->valuationTable->updateIntegrityValuation([
-                        'aktiva_id' => $dataForm['aktiva_id'],
-                        'setIntegrity' => $dataForm['value']
-                    ]);
-                }
-
-                if ($dataForm['columns'] == 'setAvailability') {
-                    $this->valuationTable->updateAvailabilityValuation([
-                        'aktiva_id' => $dataForm['aktiva_id'],
-                        'setAvailability' => $dataForm['value']
-                    ]);
-                }
-
-                if ($dataForm['columns'] == 'setImpact') {
-                    $this->valuationTable->updateImpactValuation([
-                        'aktiva_id' => $dataForm['aktiva_id'],
-                        'setImpact' => $dataForm['value']
-                    ]);
-                }
-
-                if ($dataForm['columns'] == 'setVulnerability') {
-                    $this->valuationTable->updateVulnerabilityValuation([
-                        'aktiva_id' => $dataForm['aktiva_id'],
-                        'setVulnerability' => $dataForm['value']
-                    ]);
-                }
-
-                if ($dataForm['columns'] == 'setThreat') {
-                    $this->valuationTable->updateThreatValuation([
-                        'aktiva_id' => $dataForm['aktiva_id'],
-                        'setThreat' => $dataForm['value']
-                    ]);
-                }
-
-                $data['message'] = $this->complete_evaluation($dataForm);
-                $data['getValue'] = $this->valuationTable->getValuationById((int) $dataForm['aktiva_id']);
-                return new JsonResponse(['result' => $data]);
-            }
-
-            if (!empty($dataForm['aktiva_id']) && !empty($dataForm['getValueModal'])) {
-                $data['getValue'] = $this->valuationTable->getValuationById((int) $dataForm['aktiva_id']);
-                //$data['resultingRateTable'] = $this->resultingRateTable->getResultValue();
-                return new JsonResponse(['result' => $data]);
-            }
         }
 
-        // // Render and return a response:
+        // Render and return a response:
         return new HtmlResponse($this->renderer->render(
             'valuation::valuation',
             [
-                'pako' => $dataForm,
                 'echo' => $this->valuationTable->fetchAllResources(),
                 'testPOST' => $dataForm,
                 'status' => $status,
@@ -190,42 +112,60 @@ class ValuationHandler extends BaseHandler
         ));
     }
 
-    public function complete_evaluation($aktiva_id)
+    public function setConfidentialityAction()
     {
-        /** jaké jsou hodnoty */
-        $data = $this->valuationTable->getValuationById((int) $aktiva_id['aktiva_id']);
-        if (!empty($data['confidentiality_value']) && !empty($data['integrity_value']) && !empty($data['availability_value'])) {
+        // Do some work...
+        // Render and return a response:
+        return new HtmlResponse($this->renderer->render(
+            'valuation::valuation',
+            [
+                //'echo' => $this->valuationTable->fetchAllResources()
+            ] // parameters to pass to template
+        ));
+        //return new JsonResponse(['ack' => time()]);
+    }
 
-            /** spočítání hodnoty aktiva */
-            $value = (3 ** ($data['confidentiality_value'] - 1)) + (3 ** ($data['integrity_value'] - 1)) + (3 ** ($data['availability_value'] - 1));
+    public function createAction()
+    {
+        echo "pako";
+        # ok now I am in the ProfileCOntroller
+        # the reason I am here is because I want us to now display the profile picture
 
-            $asset_value = [
-                'aktiva_id' => $aktiva_id['aktiva_id'],
-                'asset_value' => $value
-            ];
-            $this->valuationTable->setAssetValue($asset_value);
+        // $id = (int) $this->params()->fromRoute('id');
+        // $info = $this->usersTable->fetchAccountById((int) $id);
+        // if (! $info) {
+        //     return $this->notFoundAction();
+        // }
 
-            /** hodnoty z tabulky */
-            $data = $this->valuationTable->getValuationById((int) $aktiva_id['aktiva_id']);            
-            if (!empty($data['impact_value']) && !empty($data['vulnerability_value']) && !empty($data['threat_value']) && !empty($data['asset_value'])) {
+        // return new ViewModel(['data' => $info]);
 
-                $resultData = [
-                    'level_of_impact' => $data['impact_value'],
-                    'level_of_vulnerability' => $data['vulnerability_value'],
-                    'level_of_threat' => $data['threat_value']
-                ];
+        return new HtmlResponse($this->renderer->render(
+            'valuation::impact',
+            [
+                'colorLevel' => $this->getLevelColor(),
+            ] 
+        ));
+    }
 
-                $resulting = $this->resultingRateTable->getResultValue((array) $resultData);
+    public function getLevelColor()
+    {
+        $colorLevel = [];
+        $colorLevel[1] = 'green';
+        $colorLevel[2] = 'yellow';
+        $colorLevel[3] = 'orange';
+        $colorLevel[4] = 'red';
 
-                $degreeRisk = $data['asset_value'] * $resulting['value'];
+        return $colorLevel;
+    }
 
-                $dataDegreeOfRisk = [
-                    'aktiva_id' => $aktiva_id['aktiva_id'],
-                    'result_of_degree_of_risk' => $degreeRisk
-                ];
+    public function getLevelName()
+    {
+        $colorName = [];
+        $colorName[1] = 'Nízká';
+        $colorName[2] = 'Střední';
+        $colorName[3] = 'Vysoká';
+        $colorName[4] = 'Kritická';
 
-                $this->valuationTable->setDegreeOfRisk($dataDegreeOfRisk);
-            }
-        }
+        return $colorName;
     }
 }
