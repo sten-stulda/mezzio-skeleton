@@ -8,13 +8,13 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Laminas\Diactoros\Response\HtmlResponse;
-use Laminas\Diactoros\Response\RedirectResponse;
+use Laminas\Diactoros\Response\JsonResponse;
 use Mezzio\Template\TemplateRendererInterface;
-use Psr\Http\Server\MiddlewareInterface;
+use Valuation\Base\BaseHandler;
 use Valuation\Model\Table\IntegrityTable;
 use Valuation\Model\Table\ValuationTable;
 
-class IntegrityHandler implements MiddlewareInterface
+class IntegrityHandler extends BaseHandler
 {
     /**
      * @var TemplateRendererInterface
@@ -44,53 +44,35 @@ class IntegrityHandler implements MiddlewareInterface
 
         # check if the request is a form post
         if ($request->getMethod() === 'POST') {
-            $dataForm = $request->getParsedBody();
+            $requestBoby = $request->getParsedBody();
+            $dataForm = json_decode($requestBoby['json'],true);
             if (!empty($dataForm['aktiva_id']) && !empty($dataForm['setIntegrity'])) {
                 $this->valuationTable->updateIntegrityValuation($dataForm);
-                return new RedirectResponse('/valuation/integrity/' . $dataForm['aktiva_id']);
+                return new JsonResponse(['message' => 'uloženo']);
             } else {
-
-                return new RedirectResponse('/valuation/integrity/' . $dataForm['aktiva_id']);
+                return new JsonResponse(['error' => $requestBoby]);
             }
         }
 
         /** id */
         $id = (int) $request->getAttribute('id') ? : 0;
 
+        /** data model */
+        $valuation = $this->valuationTable->getValuationById($id);
+        $assets = $this->integrityTable->fetchAll();
+
         // Render and return a response:
         return new HtmlResponse($this->renderer->render(
             'valuation::integrity',
             [
                 'id' => $id,
-                'valuation' => $this->valuationTable->getValuationById($id),
-                'assets' => $this->integrityTable->fetchAll(),
+                'valuation' => $valuation,
+                'assets' => $assets,
                 'description' => $this->integrityTable->fetchAll(),
                 'radio' => $this->integrityTable->fetchAll(),
                 'colorLevel' => $this->getLevelColor(),
                 'levelName' => $this->getLevelName()
             ] // parameters to pass to template
         ));
-    }
-
-    public function getLevelColor()
-    {
-        $colorLevel = [];
-        $colorLevel[1] = 'green';
-        $colorLevel[2] = 'yellow';
-        $colorLevel[3] = 'orange';
-        $colorLevel[4] = 'red';
-
-        return $colorLevel;
-    }
-
-    public function getLevelName()
-    {
-        $colorName = [];
-        $colorName[1] = 'Nízká';
-        $colorName[2] = 'Střední';
-        $colorName[3] = 'Vysoká';
-        $colorName[4] = 'Kritická';
-
-        return $colorName;
     }
 }

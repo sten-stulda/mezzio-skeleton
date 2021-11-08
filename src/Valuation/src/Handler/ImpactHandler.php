@@ -7,14 +7,14 @@ namespace Valuation\Handler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Laminas\Diactoros\Response\HtmlResponse;
-use Laminas\Diactoros\Response\RedirectResponse;
+use Laminas\Diactoros\Response\JsonResponse;
 use Mezzio\Template\TemplateRendererInterface;
-use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Valuation\Base\BaseHandler;
 use Valuation\Model\Table\ImpactTable;
 use Valuation\Model\Table\ValuationTable;
 
-class ImpactHandler implements MiddlewareInterface
+class ImpactHandler extends BaseHandler
 {
     /**
      * @var TemplateRendererInterface
@@ -44,13 +44,13 @@ class ImpactHandler implements MiddlewareInterface
 
         # check if the request is a form post
         if ($request->getMethod() === 'POST') {
-            $dataForm = $request->getParsedBody();
+            $requestBoby = $request->getParsedBody();
+            $dataForm = json_decode($requestBoby['json'],true);
             if (!empty($dataForm['aktiva_id']) && !empty($dataForm['setImpact'])) {
                 $this->valuationTable->updateImpactValuation($dataForm);
-                return new RedirectResponse('/valuation/impact/' . $dataForm['aktiva_id']);
+                return new JsonResponse(['message' => 'uloženo']);
             } else {
-
-                return new RedirectResponse('/valuation/impact/' . $dataForm['aktiva_id']);
+                return new JsonResponse(['error' => $requestBoby]);
             }
         }
 
@@ -70,27 +70,5 @@ class ImpactHandler implements MiddlewareInterface
                 'levelName' => $this->getLevelName()
             ] // parameters to pass to template
         ));
-    }
-
-    public function getLevelColor()
-    {
-        $colorLevel = [];
-        $colorLevel[1] = 'green';
-        $colorLevel[2] = 'yellow';
-        $colorLevel[3] = 'orange';
-        $colorLevel[4] = 'red';
-
-        return $colorLevel;
-    }
-
-    public function getLevelName()
-    {
-        $colorName = [];
-        $colorName[1] = 'Nízká';
-        $colorName[2] = 'Střední';
-        $colorName[3] = 'Vysoká';
-        $colorName[4] = 'Kritická';
-
-        return $colorName;
     }
 }
