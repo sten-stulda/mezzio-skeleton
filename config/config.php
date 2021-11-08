@@ -63,7 +63,6 @@ $aggregator = new ConfigAggregator([
     // Load development config if it exists
     new PhpFileProvider(realpath(__DIR__) . '/development.config.php'),
 
-    PhpMiddleware\PhpDebugBar\ConfigProvider::class,
 ], $cacheConfig['config_cache_path']);
 
 return $aggregator->getMergedConfig();
