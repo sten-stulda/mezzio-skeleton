@@ -62,5 +62,7 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
     /** API */
     $app->get('/api/ping', App\Handler\PingHandler::class, 'api.ping');
     $app->route('/api/test[/:id]', TestHandler::class,['GET','POST'],'valuation.test');
+
+    $app->route('/efaktury', eFaktury\MainHandler::class, ['GET', 'POST'], 'efaktury.home');
     
 };
