@@ -4,4 +4,3 @@
 /coveralls-upload.json
 /phpunit.xml
 /vendor/
-#/config/autoload/development.local.php
