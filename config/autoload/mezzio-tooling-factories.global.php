@@ -26,6 +26,8 @@ return [
             Valuation\Handler\ThreatHandler::class => Valuation\Handler\ThreatHandlerFactory::class,
             Valuation\Handler\ValuationHandler::class => Valuation\Handler\ValuationHandlerFactory::class,
             Valuation\Handler\VulnerabilityHandler::class => Valuation\Handler\VulnerabilityHandlerFactory::class,
+            eFaktury\HomeHandler::class => eFaktury\HomeHandlerFactory::class,
+            eFaktury\MainHandler::class => eFaktury\MainHandlerFactory::class,
         ],
     ],
 ];
