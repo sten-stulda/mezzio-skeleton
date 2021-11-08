@@ -15,7 +15,6 @@ $cacheConfig = [
 ];
 
 $aggregator = new ConfigAggregator([
-    \eFaktury\ConfigProvider::class,
     \Valuation\ConfigProvider::class,
     \User\ConfigProvider::class,
     \Laminas\I18n\ConfigProvider::class,

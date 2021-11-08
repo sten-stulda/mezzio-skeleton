@@ -79,8 +79,7 @@
         "psr-4": {
             "App\\": "src/App/src/",
             "User\\": "src/User/src/",
-            "Valuation\\": "src/Valuation/src/",
-            "eFaktury\\": "src/eFaktury/src/"
+            "Valuation\\": "src/Valuation/src/"
         }
     },
     "autoload-dev": {
