@@ -1,3 +1,4 @@
+.vscode/
 /.phpcs-cache
 /.phpunit.result.cache
 /clover.xml
