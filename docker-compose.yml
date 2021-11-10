@@ -9,7 +9,7 @@ services:
       MYSQL_USER: stulda
       MYSQL_PASSWORD: 1234
     ports:
-      - "8081:3306"
+      - "3306:3306"
 
   laminas:
     build: .
@@ -17,7 +17,7 @@ services:
     depends_on:
       - database
     ports:
-      - "8080:80"
+      - "80:80"
     volumes:
       - .:/var/www
     stdin_open: true

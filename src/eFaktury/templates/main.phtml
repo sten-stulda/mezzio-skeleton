@@ -1,1 +1,150 @@
 <h1>E-faktury</h1>
+
+<?php
+// $line = 1;
+$input_data = '{"CP_158":{"travel_price":8000,"approved":[{"source":"29100\/01\/0000\/01","description":"Popis zak\u00e1zky","price":"3000"},{"source":"29100\/01\/0003\/01","description":"Popis zak\u00e1zky","price":"1800"},{"source":"29100\/08\/0001\/01","description":"Popis zak\u00e1zky","price":"1200"}],"suggest":[{"source":"29100\/01\/0000\/01","price":"1000"},{"source":"29100\/01\/0003\/01","price":"600"},{"source":"29100\/08\/0001\/01","price":"400"}]},"test_Label":{"travel_price":10000,"approved":[{"source":"29100\/01\/0000\/01","description":"Popis zak\u00e1zky","price":"3000"},{"source":"29100\/01\/0003\/01","description":"Popis zak\u00e1zky","price":"1800"},{"source":"29100\/08\/0001\/01","description":"Popis zak\u00e1zky","price":"1200"}],"suggest":[{"source":"29100\/01\/0000\/01","price":"2000"},{"source":"29100\/01\/0003\/01","price":"1200"},{"source":"29100\/08\/0001\/01","price":"800"}]}}';
+$decode = json_decode($input_data, true);
+if (!isset($_GET['label'])) {
+    $key = array_key_first($decode);
+} else {
+    $key = $_GET['label'];
+}
+ $input = $decode[$key];
+?>
+<style>
+    div.separator {
+        height: 1px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .funnel {
+        display: none;
+    }
+
+    .funnel-here {
+        background-color: #ffd40033;
+    }
+
+    .confirmed-line {
+        background-color: #00ff0833;
+    }
+
+    input[type="checkbox"] {
+        width: 25px;
+        height: 25px;
+        filter: hue-rotate(270deg);
+    }
+</style>
+
+<div id="new_source" style="display: none">
+    <div class="source-block row">
+        <div class="col-lg-12 separator"></div>
+        <div class="col-sm-1 col-xs-12">
+            <label class="col-lg-12">&nbsp;</label>
+            <input id="" onclick="FunnelHere(this)" class="funnel" type="checkbox">
+            <label for="" class="btn btn-light"><i class="fas fa-filter"></i></label>
+        </div>
+        <div class="col-sm-5 col-xs-12 source-select">
+            <label>Zakázka</label>
+        </div>
+        <div class="col-sm-4 col-xs-12">
+            <label>Částka</label>
+            <div class="form-group col-xs-12">
+                <div class="input-group pl-0 pr-0 col-xs-12">
+                    <input type="number" min="0" data-line-id="" data-original-value="0" class="form-control" value="0" onkeyup="activeLine(this)" onmouseup="activeLine(this)" onblur="storeValue()" disabled>
+                    <div class="input-group-append"><span class="input-group-text">Kč</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-1 col-xs-12">
+            <label class="col-lg-12">&nbsp;</label>
+            <input class="conf" type="checkbox" onclick="ConfirmValue(this)">
+        </div>
+        <div class="col-sm-1 col-xs-12">
+            <label class="col-lg-12">&nbsp;</label>
+            <button onclick="RemoveSource(this)" class="btn btn-danger float-right"><i class="fa fa-times" aria-hidden="true"></i></button>
+        </div>
+    </div>
+</div>
+<div class="col-lg-7 col-md-12 mt-0 container card shadow">
+    <nav class="nav nav-tabs mt-2">
+        <?php
+        $keys = array_keys($decode);
+        if (count($keys) > 1) {
+            foreach ($keys as $link) {
+                ?>
+                <a class="nav-item nav-link <?= ($key == $link) ? "active" : ""; ?>" href="?label=<?= $link ?>"><?= $link ?></a>
+                <?php
+            }
+        }
+        ?>
+    </nav>
+    <div id="sources" class="card-body justify-content-lg-center col-lg-12 col-sm-12">
+        <div class="col-xs-12">
+            <label><?= $key ?></label>
+        </div>
+        <div class="col-xs-12">
+            <label>Celková cena cesty: <?= $input['travel_price'] ?> Kč</label> - <label>Předschváleno: <?= $input['expected_price'] ?> Kč</label>
+        </div>
+        <div class="col-xs-12 separator"></div>
+        <div class="col-xs-12">
+            <h4>Předschválené zdroje:</h4>
+        </div>
+        <div id="approved">
+            <?php foreach ($input['approved'] as $approved) { ?>
+                <div class="row source-block" data-line="<?= $line ?>">
+                    <div class="col-sm-1 col-xs-12">
+                        <label class="col-lg-12">&nbsp;</label>
+                        <input id="f_<?= $line ?>" onclick="FunnelHere(this)" class="funnel" type="checkbox">
+                        <label for="f_<?= $line ?>" class="btn btn-light"><i class="fas fa-filter"></i></label>
+                    </div>
+                    <div class="col-sm-5 col-xs-12">
+                        <label>Zakázka</label>
+                        <input type="text" class="form-control" data-line-id="<?= $approved['id'] ?>" data-fisid="<?= $approved['ifis_id'] ?>" data-code="<?= $approved['source'] ?>" disabled value="<?= $approved['source'] ?> (<?= $approved['description'] ?>)">
+                    </div>
+                    <div class="col-sm-4 col-xs-12">
+                        <label>Částka</label>
+                        <div class="form-group col-xs-12">
+                            <div class="input-group pl-0 pr-0 col-xs-12">
+                                <input id="i_<?= $line ?>" type="number" min="0" class="form-control" value="<?= $approved['price'] ?>" onkeyup="activeLine(this)" onmouseup="activeLine(this)" onblur="storeValue()">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">Kč</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-1 col-xs-12">
+                        <label class="col-lg-12">&nbsp;</label>
+                        <input class="conf" type="checkbox" onclick="ConfirmValue(this)">
+                    </div>
+                </div>
+                <?php $line++ ?>
+            <?php } ?>
+        </div>
+        <div class="col-xs-12 separator"></div>
+        <div class="col-xs-12">
+            <h4>Další zdroje:</h4>
+        </div>
+        <div id="new_sources"></div>
+        <div class="col-xs-12 form-group">
+            <button id="AddSource" onclick="AddSource()" class="btn btn-primary">+</button>
+        </div>
+        <div class="form-group col-xs-12">
+            <button id="saveButton" class="btn btn-primary travel-next float-right">Uložit</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const mis_base_url = "<\?= MIS_BASE_URL ?>";
+    const input = '<?= json_encode($input) ?>';
+    const workplace = <?= $input['ns'] ?>;
+    const documentId = <?= $documentId ?>;
+    const lastLine = <?= $line ?>;
+    const budgetLabel = '<?= $key ?>';
+</script>
+
+<?php
+$this->inlineScript()
+        ->prependFile($this->url('home') . 'js/budgetBalance.js');
+?>
