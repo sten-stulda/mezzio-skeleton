@@ -148,3 +148,39 @@ if (!isset($_GET['label'])) {
 $this->inlineScript()
         ->prependFile($this->url('home') . 'js/budgetBalance.js');
 ?>
+
+<hr>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>STATE</th>
+            <th>TIMESTAMP_IN</th>
+            <th>XML_IN</th>
+            <th>TIMESTAMP_OUT</th>
+            <th>XML_OUT</th>
+            <th>mis_TIMEOUT</th>
+            <th>mis_who_out</th>
+            <th>action</th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php if (isset($this->tableInvoices)) : ?>
+            <?php foreach ($this->tableInvoices as $item) : ?>
+        <tr>
+            <td><?= $item['ID'] ?></td>
+            <td><?= $item['STATE'] ?></td>
+            <td><?= $item['TIMESTAMP_IN'] ?></td>
+            <td><?= print_r($item['XML_IN']); ?></td>
+            <td><?= $item['TIMESTAMP_OUT'] ?></td>
+            <td><?= $item['XML_OUT'] ?></td>
+            <td><?= $item['mis_TIMEOUT'] ?></td>
+            <td><?= $item['mis_who_out'] ?></td>
+            <td><a href="http://" class="btn btn-primary">akce</a></td>
+        </tr>
+
+        <?php endforeach; ?>
+                <?php endif; ?>
+    </tbody>
+</table>

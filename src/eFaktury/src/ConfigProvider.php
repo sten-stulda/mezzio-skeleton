@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace eFaktury;
 
+use eFaktury\Model\Table\ifisEinvoicesStackTable;
+use eFaktury\Model\Table\ifisEinvoicesStackTableFactory;
+
 /**
  * The configuration provider for the eFaktury module
  *
@@ -34,6 +37,7 @@ class ConfigProvider
             'invokables' => [
             ],
             'factories'  => [
+                ifisEinvoicesStackTable::class => ifisEinvoicesStackTableFactory::class
             ],
         ];
     }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace eFaktury;
 
+use eFaktury\Model\Table\ifisEinvoicesStackTable;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -17,8 +18,14 @@ class MainHandler implements RequestHandlerInterface
      */
     private $renderer;
 
-    public function __construct(TemplateRendererInterface $renderer)
+    /**
+     * @var ifisEinvoicesStackTable
+     */
+    private $ifisEinvoicesStackTable;
+
+    public function __construct( ifisEinvoicesStackTable $ifisEinvoicesStackTable, TemplateRendererInterface $renderer)
     {
+        $this->ifisEinvoicesStackTable = $ifisEinvoicesStackTable;
         $this->renderer = $renderer;
     }
 
@@ -28,7 +35,9 @@ class MainHandler implements RequestHandlerInterface
         // Render and return a response:
         return new HtmlResponse($this->renderer->render(
             'e-faktury::main',
-            [] // parameters to pass to template
+            [
+                'tableInvoices' => $this->ifisEinvoicesStackTable->getFetchAll()
+            ] // parameters to pass to template
         ));
     }
 }
